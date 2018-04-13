@@ -45,7 +45,7 @@ store.dispatch(actions.feed_append({ articles: [getArticle(5)] }))
 // action input. `undefined` is there for a reason, this is intended to be
 // ALWAYS used with `typeof`, for interop with other existing reducers
 // and dispatchers
-function someThing( dispatcher: (payload: typeof newsRedutser) => void ) {
+function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => void ) {
   dispatcher({
     type: 'feed_append',
     payload : {
