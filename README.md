@@ -1,6 +1,6 @@
 # redutser
 
-_Annihilate the redux boilerplate!_
+_Type-safe action creators and reducers for redux and typescript._
 
 ## In a nutshell
 
@@ -34,17 +34,16 @@ const newsRedutser = redutser(
   }
 )
 
-// .reducer creates a reducer with exactly the shape you are thinking of.
+// .reducer has a reducer with exactly the shape you are thinking of.
 const store = createStore( newsRedutser.reducer )
 
 // .actionCreators contains a type-safe action creator map!
-const actions = newsRedutser.actionCreators
+const actions = newsRedutser.creators
 store.dispatch(actions.feed_append({ articles: [getArticle(5)] }))
 
-// .actionTypes contains undefined, typecasted as the reducers' expected
-// action input. `undefined` is there for a reason, this is intended to be
-// ALWAYS used with `typeof`, for interop with other existing reducers
-// and dispatchers
+// .actionTypes has the action type, and it is meant to be always used with `typeof`.
+// For use with redux code interop.
+// If you ask it, in real life, it is just an `undefined`.
 function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => void ) {
   dispatcher({
     type: 'feed_append',
@@ -59,9 +58,6 @@ function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => vo
 
 An inner redutser does the same thing as a redutser, but doesn't require an initial state.
 
-> I should always pass an initial state for a top-level reducer, but I may pardon inner reducers
-> which are expected to be called from the top-level reducer.
-
 ```typescript
 import { innerRedutser } from "redutser"
 import { WholeStateType } from "./index"
@@ -74,7 +70,54 @@ const reduts = innerRedutser<WholeStateType>()({
 })
 ```
 
-## Coming next
+## subdomain ( "extends" Redutser )
+
+Glues other `redutser`s for a bigger purpose, creating a composed redutser. They are expected to share the same state type.
+
+```typescript
+const red1 = redutser(initialState, { hello: (state) => { ...state, hello } })
+const red2 = redutser(initialState, { world: (state) => { ...state, world } })
+
+const meatBall = subdomain(initialState, { red1, red2 })
+```
+
+Action types from the sources are composed into the `payload` parameter. Always type-safe and with editor support, as usual.
+
+```typescript
+const action: typeof meatBall.actionTypes = {
+  type: 'red2',
+  payload: {
+    type: 'world',
+    payload: {}
+  }
+}) //assigns fine
+```
+
+Supplied action creators go one level deeper:
+
+```typescript
+store.dispatch(meatBall.creators.red2.world({}))
+```
+## Utilitary typedefs
+
+Some UTL typedefs also bundled.
+
+### ThunkDispatcher<ActionTypes, State>
+
+A dispatcher function which actually validates its actions, expecting thunk or object.
+
+```tsx
+const Component
+  : React.SFC<{ dispatch: ThunkDispatcher<typeof meatBall.actionTypes, MyState> }>
+  = props => (
+    <button onClick={() => props.dispatch(meatBall.creators.red2.world({}))} >
+      LISPscript
+    </button>
+  )
+```
+
+
+## Maybe coming next
 
 The concept is still in early stages. Probable next things:
 

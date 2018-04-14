@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./built",
+    "declarationDir": "./typings",
+    "declaration": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "noUnusedLocals": true
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./src/**/*.test.ts"]
+}
