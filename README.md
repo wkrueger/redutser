@@ -72,11 +72,11 @@ const reduts = innerRedutser<WholeStateType>()({
 
 ## subdomain ( "extends" Redutser )
 
-Glues other `redutser`s for a bigger purpose, creating a composed redutser. They are expected to share the same state type.
+Glues other `redutser`s for a bigger purpose, creating a compound redutser. They are expected to share the same state type.
 
 ```typescript
-const red1 = redutser(initialState, { hello: (state) => { ...state, hello } })
-const red2 = redutser(initialState, { world: (state) => { ...state, world } })
+const red1 = redutser(initialState, { hello: (state) => { ...state, hello: 'yes' } })
+const red2 = redutser(initialState, { world: (state) => { ...state, world: 'yes' } })
 
 const meatBall = subdomain(initialState, { red1, red2 })
 ```
