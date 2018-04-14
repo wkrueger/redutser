@@ -116,13 +116,9 @@ const Component
   )
 ```
 
+## Known Caveats
 
-## Maybe coming next
-
-The concept is still in early stages. Probable next things:
-
-* Helpers for typing dispatchers and stores
-* How will it work with the common middlewares?
+  - When actions have no parameters, you will still be required to pass an empty object `{}` to the payload.
 
 ## License
 
