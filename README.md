@@ -4,7 +4,9 @@ _Type-safe action creators and reducers for redux and typescript._
 
 ## In a nutshell
 
-Allows you to write type-safe reducers and action creators with fewer keystrokes, encouraging you to group your code by domain, not by "framework-function".
+Allows you to write type-safe (plain) reducers and action creators with fewer keystrokes,
+with an opinionated approach that encourages code grouping  by domain, not by
+"framework-function".
 
 **Expects ts 2.8+**
 
@@ -119,6 +121,7 @@ const Component
 ## Known Caveats
 
   - When actions have no parameters, you will still be required to pass an empty object `{}` to the payload.
+  - This currently only bothers with "Level 0/plain/vanilla" actions.
 
 ## License
 

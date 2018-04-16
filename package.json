@@ -4,7 +4,12 @@
   "description": "Type-safe action creators and reducers for redux.",
   "main": "built/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc -p ./ --noEmit",
+    "tsc:watch": "tsc -p ./ --noEmit -w",
+    "pretest": "npm run tsc",
+    "test": "jest --config jest.config.json",
+    "test:watch": "jest --config jest.config.json --watch",
+    "test:update": "jest --config jest.config.json -u"
   },
   "repository": {
     "type": "git",
@@ -16,9 +21,14 @@
   ],
   "author": "Willian Krueger",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/wkrueger/redutser/issues"
-  },
   "homepage": "https://github.com/wkrueger/redutser#readme",
-  "types": "./typings/index.d.ts"
+  "types": "./typings/index.d.ts",
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "jest": "^22.4.3",
+    "redux": "^4.0.0-rc.1",
+    "tap": "^11.1.4",
+    "ts-jest": "^22.4.3",
+    "typescript": "^2.8.1"
+  }
 }

@@ -1,24 +1,26 @@
-import * as T from "../type-helpers"
+import * as H from "../type-helpers"
+
+export type Reducer<State, Payload = any> = (s: State, p: Payload) => State
 
 export type ReducerDict<State> = {
-  [name: string]: (state: State, p: any) => State
+  [name: string]: Reducer<State>
 }
 
 export type ActionCreatorsFromReducerDict<Inp extends ReducerDict<any>> = {
   [K in keyof Inp]: (
-    payload: T.SecondArg<Inp[K]>
-  ) => { type: K; payload: T.SecondArg<Inp[K]> }
+    payload: H.SecondArg<Inp[K]>
+  ) => { type: K; payload: H.SecondArg<Inp[K]> }
 }
 
 export type ActionTypesFromReducerDict<
   Inp extends ReducerDict<any>
-> = T.FnReturn<T.Values<ActionCreatorsFromReducerDict<Inp>>>
+> = H.FnReturn<H.Values<ActionCreatorsFromReducerDict<Inp>>>
 
 export function redutser<State, Dict extends ReducerDict<State>>(
   initialState: State,
-  actionsMap: Dict
+  reducerDict: Dict
 ): Redutser<State, Dict> {
-  const creators = _actionCreatorsFromReducerDict()(actionsMap)
+  const creators = _actionCreatorsFromReducerDict()(reducerDict)
 
   function reducer(
     state = initialState,
@@ -28,10 +30,10 @@ export function redutser<State, Dict extends ReducerDict<State>>(
       console.error("redutser unexpected: undefined state.")
     }
 
-    const handler = actionsMap[action.type]
+    const handler = reducerDict[action.type]
     if (handler) {
       return handler(state, action.payload)
-    } else {
+    } else if (String(action.type).substr(0, 2) !== "@@") {
       console.error(
         "redutser unexpected: handler not found for action",
         action.type
@@ -42,6 +44,7 @@ export function redutser<State, Dict extends ReducerDict<State>>(
 
   return {
     __redutser__: true,
+    _reducerDict: reducerDict,
     creators,
     reducer,
     actionTypes: (undefined as any) as ActionTypesFromReducerDict<Dict>,
@@ -49,16 +52,15 @@ export function redutser<State, Dict extends ReducerDict<State>>(
 }
 
 // copy-pasted, maybe helps something
-export interface Redutser<State, ActionsMap extends ReducerDict<State>> {
+export interface Redutser<State, Dict extends ReducerDict<State>> {
   __redutser__: boolean
-  creators: ActionCreatorsFromReducerDict<ActionsMap>
+  _reducerDict: Dict
+  creators: ActionCreatorsFromReducerDict<Dict>
   reducer: (
     state: State | undefined,
-    action: T.FnReturn<
-      ActionCreatorsFromReducerDict<ActionsMap>[keyof ActionsMap]
-    >
+    action: H.FnReturn<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>
   ) => State
-  actionTypes: ActionTypesFromReducerDict<ActionsMap>
+  actionTypes: ActionTypesFromReducerDict<Dict>
 }
 
 function _actionCreatorsFromReducerDict() {

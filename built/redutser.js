@@ -8,24 +8,25 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 exports.__esModule = true;
-function redutser(initialState, actionsMap) {
-    var creators = _actionCreatorsFromReducerDict()(actionsMap);
+function redutser(initialState, reducerDict) {
+    var creators = _actionCreatorsFromReducerDict()(reducerDict);
     function reducer(state, action) {
         if (state === void 0) { state = initialState; }
         if (initialState === undefined) {
             console.error("redutser unexpected: undefined state.");
         }
-        var handler = actionsMap[action.type];
+        var handler = reducerDict[action.type];
         if (handler) {
             return handler(state, action.payload);
         }
-        else {
+        else if (String(action.type).substr(0, 2) !== "@@") {
             console.error("redutser unexpected: handler not found for action", action.type);
         }
         return state;
     }
     return {
         __redutser__: true,
+        _reducerDict: reducerDict,
         creators: creators,
         reducer: reducer,
         actionTypes: undefined
