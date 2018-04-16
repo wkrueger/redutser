@@ -22,7 +22,7 @@
   "author": "Willian Krueger",
   "license": "MIT",
   "homepage": "https://github.com/wkrueger/redutser#readme",
-  "types": "./typings/index.d.ts",
+  "types": "./declaration/index.d.ts",
   "devDependencies": {
     "@types/jest": "^22.2.3",
     "jest": "^22.4.3",
