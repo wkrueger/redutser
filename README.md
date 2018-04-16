@@ -111,7 +111,7 @@ const meatball = subdomain(initialState, {
 
 A shorthand for the example above.
 
-> Typings for this currently not alright. Use the example above.
+> Typings for this currently not alright. Use the example above for accurate checking.
 
 ```typescript
 const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB })
@@ -121,4 +121,5 @@ const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB }
 ## Known Caveats
 
   - When actions have no parameters, you will still be required to pass an empty object `{}` to the payload.
-  - Some typedefs may be intimidating. (Some may yet need improvement). Fear not, young padawan.
+  - Some typedefs may be intimidating. (Some may yet need improvement). Fear not.
+  - (TS/VSCode) On some nested structures, editor support may show `any` when it intended to show `...`. Don't be tricked.

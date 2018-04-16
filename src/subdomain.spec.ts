@@ -1,5 +1,5 @@
 import { redutser } from "./redutser"
-import { subdomain /*, combineRedutsers */ } from "./subdomain"
+import { subdomain, combineRedutsers } from "./subdomain"
 import { createStore } from "redux"
 import { liftRedutserState } from "./combine-redutsers"
 
@@ -35,10 +35,10 @@ const red3 = redutser(initialState.c, {
       energy: strength == "low" ? state.energy - 2 : state.energy - 5,
     },
 })
-/*
+
 const red4 = redutser(initialState.d, {
   initCat: (state, name: string) => state || { name, meows: true },
-})*/
+})
 
 describe("Subdomain", () => {
   const subd = subdomain(initialState, { red1, red2 })
@@ -103,14 +103,94 @@ describe("Move redutser scope up", () => {
   })
 })
 
-/*
-describe("CombineRedutsers", () => {
-  const combined = combineRedutsers(initialState, { c: red3, d: red4 })
-  const subs = subdomain(initialState, {
-    c: liftRedutserState(initialState, 'c', red3),
-    d: liftRedutserState(initialState, 'd', red4),
+describe("Equivalent", () => {
+  const equivalent = subdomain(initialState, {
+    c: liftRedutserState(initialState, "c", red3),
+    d: liftRedutserState(initialState, "d", red4),
   })
 
+  test("Check action format", () => {
+    expect(equivalent.creators.c.bark("low")).toEqual({
+      type: "c",
+      payload: {
+        type: "bark",
+        payload: "low",
+      },
+    })
+    expect(equivalent.creators.d.initCat("bob")).toEqual({
+      type: "d",
+      payload: {
+        type: "initCat",
+        payload: "bob",
+      },
+    })
+  })
 
+  test("Check reducer output", () => {
+    const store = createStore(equivalent.reducer)
+    expect(store.getState()).toEqual(initialState)
+
+    store.dispatch(equivalent.creators.c.bark("loud"))
+    expect(store.getState()).toEqual(initialState)
+
+    store.dispatch(equivalent.creators.c.initDog("Rex"))
+    expect(store.getState()).toEqual({
+      a: 1,
+      b: "b",
+      c: { name: "Rex", energy: 50 },
+    })
+
+    store.dispatch(equivalent.creators.c.bark("loud"))
+    expect(store.getState()).toEqual({
+      a: 1,
+      b: "b",
+      c: { name: "Rex", energy: 45 },
+    })
+  })
 })
-*/
+
+describe("CombineRedutsers", () => {
+  const equivalent = combineRedutsers(initialState, {
+    c: red3,
+    d: red4,
+  })
+
+  test("Check action format", () => {
+    expect(equivalent.creators.c.bark("low")).toEqual({
+      type: "c",
+      payload: {
+        type: "bark",
+        payload: "low",
+      },
+    })
+    expect(equivalent.creators.d.initCat("bob")).toEqual({
+      type: "d",
+      payload: {
+        type: "initCat",
+        payload: "bob",
+      },
+    })
+  })
+
+  test("Check reducer output", () => {
+    const store = createStore(equivalent.reducer)
+    expect(store.getState()).toEqual(initialState)
+
+    store.dispatch(equivalent.creators.c.bark("loud"))
+    expect(store.getState()).toEqual(initialState)
+
+    store.dispatch(equivalent.creators.c.initDog("Rex"))
+    expect(store.getState()).toEqual({
+      a: 1,
+      b: "b",
+      c: { name: "Rex", energy: 50 },
+    })
+
+    store.dispatch(equivalent.creators.c.bark("loud"))
+    expect(store.getState()).toEqual({
+      a: 1,
+      b: "b",
+      c: { name: "Rex", energy: 45 },
+    })
+  })
+})
