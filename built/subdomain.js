@@ -9,8 +9,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 exports.__esModule = true;
 var redutser_1 = require("./redutser");
+var combine_redutsers_1 = require("./combine-redutsers");
 /**
- * "Composes" many reducers.
+ * "Composes" many redutsers which share the same state.
  */
 function subdomain(initialState, redutsers) {
     var reducerDict = _reducerDictFromRedutserDict()(redutsers);
@@ -28,6 +29,14 @@ function subdomain(initialState, redutsers) {
     return __assign({}, out, { creators: creators });
 }
 exports.subdomain = subdomain;
+function combineRedutsers(initialState, redutsers) {
+    var lifted = Object.keys(redutsers).reduce(function (out, key) {
+        return __assign({}, out, (_a = {}, _a[key] = combine_redutsers_1.liftRedutserState(initialState, key, redutsers[key]), _a));
+        var _a;
+    }, {});
+    return subdomain(initialState, lifted);
+}
+exports.combineRedutsers = combineRedutsers;
 function _reducerDictFromRedutserDict() {
     return function (dict) {
         return Object.keys(dict).reduce(function (out, key) {

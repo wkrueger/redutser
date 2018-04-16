@@ -1,7 +1,15 @@
 import { Reducer, Redutser, ReducerDict } from "./redutser";
-export declare type Convert<Red, UpperState> = Red extends Reducer<any, infer P> ? Reducer<UpperState, P> : never;
-export declare type ApplyToDict<Dict extends ReducerDict<any>, StateOuter> = {
-    [DictKey in keyof Dict]: Convert<Dict[DictKey], StateOuter>;
+export declare type ReplaceReducerState<Red, UpperState> = Red extends Reducer<any, infer P> ? Reducer<UpperState, P> : never;
+export declare type ReplaceDictState<Dict extends ReducerDict<any>, StateOuter> = {
+    [DictKey in keyof Dict]: ReplaceReducerState<Dict[DictKey], StateOuter>;
 };
-export declare const applyToDict: <StateOuter>() => <Dict extends ReducerDict<StateOuter>>(dict: Dict, mapKey: keyof StateOuter) => ApplyToDict<Dict, StateOuter>;
-export declare const applyToRedutser: <StateOuter>() => <R extends Redutser<StateOuter[K], any>, K extends keyof StateOuter>(redutser: R, key: K) => Redutser<StateOuter, ApplyToDict<any, StateOuter>>;
+/**
+ * Applies "mapToKey" to a key-value pair (ReducerDict), returning a new Dict.
+ */
+export declare const liftDictState: <StateOuter>() => <K extends keyof StateOuter, Dict extends ReducerDict<StateOuter[K]>>(mapKey: K, dict: Dict) => ReplaceDictState<Dict, StateOuter>;
+export declare type DictOfRedutser<R> = R extends Redutser<any, infer D> ? D : never;
+export declare type LiftRedutserState<OuterState, Key extends keyof OuterState, Red extends Redutser<OuterState[Key], any>> = Redutser<OuterState, ReplaceDictState<DictOfRedutser<Red>, OuterState>>;
+/**
+ * "Lifts up" the state of a redutser.
+ */
+export declare const liftRedutserState: <OuterState, K extends keyof OuterState, R extends Redutser<OuterState[K], any>>(state: OuterState, key: K, _red: R) => Redutser<OuterState, ReplaceDictState<DictOfRedutser<R>, OuterState>>;

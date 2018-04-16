@@ -1,50 +1,47 @@
 import { redutser } from "./redutser"
-import { subdomain } from "./subdomain"
+import { subdomain /*, combineRedutsers */ } from "./subdomain"
 import { createStore } from "redux"
-import { applyToRedutser } from "./helper"
+import { liftRedutserState } from "./combine-redutsers"
 
-const initialState1 = {
+const initialState = {
   a: 1,
   b: "b",
   c: undefined as undefined | { name: string; energy: number },
+  d: undefined as undefined | { name: string; meows: boolean },
 }
 
-function createSomething() {
-  return redutser(initialState1, {
-    increment: (state, count: number) => ({
-      ...state,
-      a: state.a + count,
-    }),
-    concat: (state, act: { text: string }) => ({
-      ...state,
-      b: state.b + act.text,
-    }),
-    doNothing: state => state,
-  })
-}
+// 1 and 2 share the same state
+const red1 = redutser(initialState, {
+  increment: (state, count: number) => ({
+    ...state,
+    a: state.a + count,
+  }),
+  concat: (state, act: { text: string }) => ({
+    ...state,
+    b: state.b + act.text,
+  }),
+  doNothing: state => state,
+})
+const red2 = redutser(initialState, {
+  reset: () => initialState,
+})
 
-function fromSameDomain() {
-  return redutser(initialState1, {
-    reset: () => initialState1,
-  })
-}
-
-function createAnotherThing() {
-  const initialState = { name: "Dog", energy: 57 }
-  return redutser(initialState, {
-    bark: (state, strength: "low" | "loud") => ({
+// 3 and 4 work on "substates"
+const red3 = redutser(initialState.c, {
+  initDog: (state, name: string) => state || { name, energy: 50 },
+  bark: (state, strength: "low" | "loud") =>
+    state && {
       ...state,
       energy: strength == "low" ? state.energy - 2 : state.energy - 5,
-    }),
-  })
-}
-
-const red1 = createSomething()
-const red2 = fromSameDomain()
-const red3 = createAnotherThing()
+    },
+})
+/*
+const red4 = redutser(initialState.d, {
+  initCat: (state, name: string) => state || { name, meows: true },
+})*/
 
 describe("Subdomain", () => {
-  const subd = subdomain(initialState1, { red1, red2 })
+  const subd = subdomain(initialState, { red1, red2 })
 
   test("Check action formats", () => {
     const genActions = [
@@ -64,16 +61,56 @@ describe("Subdomain", () => {
 
   test("Check reducer output", () => {
     const store = createStore(subd.reducer)
-    expect(store.getState()).toEqual(initialState1)
+    expect(store.getState()).toEqual(initialState)
 
     store.dispatch(subd.creators.red1.increment(2))
     expect(store.getState()).toEqual({ a: 3, b: "b" })
 
     store.dispatch(subd.creators.red2.reset({}))
-    expect(store.getState()).toEqual(initialState1)
+    expect(store.getState()).toEqual(initialState)
   })
 })
 
-describe("Combine reducers", () => {
-  const mapped = applyToRedutser<typeof initialState1>()(red3, "c")
+describe("Move redutser scope up", () => {
+  const scopeup = liftRedutserState(initialState, "c", red3)
+
+  test("Check action format", () => {
+    const genAction = scopeup.creators.bark("low")
+    const expAction = { type: "bark", payload: "low" }
+    expect(genAction).toEqual(expAction)
+  })
+
+  test("Check reducer output", () => {
+    const store = createStore(scopeup.reducer)
+    expect(store.getState()).toEqual(initialState)
+
+    store.dispatch(scopeup.creators.bark("loud"))
+    expect(store.getState()).toEqual(initialState)
+
+    store.dispatch(scopeup.creators.initDog("Rex"))
+    expect(store.getState()).toEqual({
+      a: 1,
+      b: "b",
+      c: { name: "Rex", energy: 50 },
+    })
+
+    store.dispatch(scopeup.creators.bark("loud"))
+    expect(store.getState()).toEqual({
+      a: 1,
+      b: "b",
+      c: { name: "Rex", energy: 45 },
+    })
+  })
 })
+
+/*
+describe("CombineRedutsers", () => {
+  const combined = combineRedutsers(initialState, { c: red3, d: red4 })
+  const subs = subdomain(initialState, {
+    c: liftRedutserState(initialState, 'c', red3),
+    d: liftRedutserState(initialState, 'd', red4),
+  })
+
+
+})
+*/

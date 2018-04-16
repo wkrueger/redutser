@@ -5,7 +5,8 @@
     "declaration": true,
     "moduleResolution": "node",
     "strict": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "pretty": true
   },
   "include": ["./src/**/*.ts"]
 }

@@ -43,24 +43,24 @@ export function redutser<State, Dict extends ReducerDict<State>>(
   }
 
   return {
-    __redutser__: true,
-    _reducerDict: reducerDict,
     creators,
     reducer,
     actionTypes: (undefined as any) as ActionTypesFromReducerDict<Dict>,
+    __redutser__: true,
+    _reducerDict: reducerDict,
   }
 }
 
 // copy-pasted, maybe helps something
 export interface Redutser<State, Dict extends ReducerDict<State>> {
-  __redutser__: boolean
-  _reducerDict: Dict
   creators: ActionCreatorsFromReducerDict<Dict>
   reducer: (
     state: State | undefined,
     action: H.FnReturn<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>
   ) => State
   actionTypes: ActionTypesFromReducerDict<Dict>
+  __redutser__: boolean
+  _reducerDict: Dict
 }
 
 function _actionCreatorsFromReducerDict() {
@@ -75,15 +75,4 @@ function _actionCreatorsFromReducerDict() {
       {}
     ) as any
   }
-}
-
-/**
- * Initial state is recommended. But sometimes you just want to write an inner reducer,
- * so use this function for that case.
- */
-export function innerRedutser<State>() {
-  // "curried style" is because either TS infers all, either you supply all
-  // there seems no way to provide a middle ground.
-  return <Actions extends ReducerDict<State>>(actionsMap: Actions) =>
-    redutser((undefined as any) as State, actionsMap)
 }

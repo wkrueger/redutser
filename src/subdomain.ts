@@ -1,4 +1,5 @@
 import { redutser, Redutser } from "./redutser"
+import { liftRedutserState } from "./combine-redutsers"
 
 export type RedutserDict<State> = {
   [k: string]: Redutser<State, any>
@@ -28,7 +29,7 @@ type SubdomainActionCreators<
 }
 
 /**
- * "Composes" many reducers.
+ * "Composes" many redutsers which share the same state.
  */
 export function subdomain<State, Redutsers extends RedutserDict<State>>(
   initialState: State,
@@ -70,4 +71,21 @@ function _reducerDictFromRedutserDict<State>() {
       {}
     ) as any
   }
+}
+
+export function combineRedutsers<
+  State,
+  RedDict extends { [k in keyof State]?: Redutser<State[k], any> }
+>(initialState: State, redutsers: RedDict) {
+  const lifted = Object.keys(redutsers).reduce(
+    (out, key: any) => {
+      return {
+        ...out,
+        [key]: liftRedutserState(initialState, key, (redutsers as any)[key]),
+      }
+    },
+    {} as any
+  ) as { [k in keyof RedDict]: any /*LiftRedutserState<State, k, RedDict[k]>*/ }
+
+  return subdomain(initialState, lifted)
 }

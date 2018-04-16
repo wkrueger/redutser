@@ -1,10 +1,16 @@
-import { Reducer, Redutser, ReducerDict, innerRedutser } from "./redutser"
+import { Reducer, Redutser, redutser, ReducerDict } from "./redutser"
 
+/**
+ * A pair of functions that handle the state conversion in and out.
+ */
 type MapperGroup<StateInner, StateOuter> = {
   mapToInner: (s: StateOuter) => StateInner
   mapToOuter: (s: StateInner, out: StateOuter) => StateOuter
 }
 
+/**
+ * An implementation of the above pair.
+ */
 const mapToKey = <Outer>() => <K extends keyof Outer>(
   key: K
 ): MapperGroup<Outer[K], Outer> => ({
@@ -15,6 +21,11 @@ const mapToKey = <Outer>() => <K extends keyof Outer>(
   }),
 })
 
+/**
+ * Gets a reducer.
+ * Returns a new reducer with its state "lifted" from the original,
+ * according to the mapper pair.
+ */
 const mapReducerState = <StateOuter>() => <
   Mapper extends MapperGroup<StateInner, StateOuter>,
   StateInner
@@ -29,19 +40,26 @@ const mapReducerState = <StateOuter>() => <
   }
 }
 
-export type Convert<Red, UpperState> = Red extends Reducer<any, infer P>
+export type ReplaceReducerState<Red, UpperState> = Red extends Reducer<
+  any,
+  infer P
+>
   ? Reducer<UpperState, P>
   : never
 
-export type ApplyToDict<Dict extends ReducerDict<any>, StateOuter> = {
-  [DictKey in keyof Dict]: Convert<Dict[DictKey], StateOuter>
+export type ReplaceDictState<Dict extends ReducerDict<any>, StateOuter> = {
+  [DictKey in keyof Dict]: ReplaceReducerState<Dict[DictKey], StateOuter>
 }
 
-export const applyToDict = <StateOuter>() => <
-  Dict extends ReducerDict<StateOuter>
+/**
+ * Applies "mapToKey" to a key-value pair (ReducerDict), returning a new Dict.
+ */
+export const liftDictState = <StateOuter>() => <
+  K extends keyof StateOuter,
+  Dict extends ReducerDict<StateOuter[K]>
 >(
-  dict: Dict,
-  mapKey: keyof StateOuter
+  mapKey: K,
+  dict: Dict
 ) => {
   return Object.keys(dict).reduce(
     (out, dictKey) => {
@@ -52,17 +70,34 @@ export const applyToDict = <StateOuter>() => <
       }
     },
     {} as any
-  ) as ApplyToDict<Dict, StateOuter>
+  ) as ReplaceDictState<Dict, StateOuter>
 }
 
-export const applyToRedutser = <StateOuter>() => <
-  R extends Redutser<StateOuter[K], any>,
-  K extends keyof StateOuter
+export type DictOfRedutser<R> = R extends Redutser<any, infer D> ? D : never
+
+export type LiftRedutserState<
+  OuterState,
+  Key extends keyof OuterState,
+  Red extends Redutser<OuterState[Key], any>
+> = Redutser<OuterState, ReplaceDictState<DictOfRedutser<Red>, OuterState>>
+
+/**
+ * "Lifts up" the state of a redutser.
+ */
+export const liftRedutserState = <
+  OuterState,
+  K extends keyof OuterState,
+  R extends Redutser<OuterState[K], any>
 >(
-  redutser: R,
-  key: K
+  state: OuterState,
+  key: K,
+  _red: R
 ) => {
-  const dict = redutser._reducerDict
-  const dictMapped = applyToDict<StateOuter>()(dict, key)
-  return innerRedutser<StateOuter>()(dictMapped)
+  const dictMapped = liftDictState<OuterState>()(
+    key,
+    //this might feel a bit hacky but thats what worked better wth the inference atm
+    //a previous less "hacky" approach brought inference issues.
+    _red._reducerDict as DictOfRedutser<R>
+  )
+  return redutser(state, dictMapped)
 }

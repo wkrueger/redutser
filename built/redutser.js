@@ -25,11 +25,11 @@ function redutser(initialState, reducerDict) {
         return state;
     }
     return {
-        __redutser__: true,
-        _reducerDict: reducerDict,
         creators: creators,
         reducer: reducer,
-        actionTypes: undefined
+        actionTypes: undefined,
+        __redutser__: true,
+        _reducerDict: reducerDict
     };
 }
 exports.redutser = redutser;
@@ -41,15 +41,3 @@ function _actionCreatorsFromReducerDict() {
         }, {});
     };
 }
-/**
- * Initial state is recommended. But sometimes you just want to write an inner reducer,
- * so use this function for that case.
- */
-function innerRedutser() {
-    // "curried style" is because either TS infers all, either you supply all
-    // there seems no way to provide a middle ground.
-    return function (actionsMap) {
-        return redutser(undefined, actionsMap);
-    };
-}
-exports.innerRedutser = innerRedutser;

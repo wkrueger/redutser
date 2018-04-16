@@ -1,6 +1,8 @@
 export type SecondArg<T> = T extends (x: any, y: infer V) => any ? V : never
 export type Values<K> = K[keyof K]
 export type FnReturn<T> = T extends (...x: any[]) => infer V ? V : never
+export type Just<T> = Omit<T, undefined>
+export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export type ThunkFunction<Actions, StateT> = (
   dispatcher: ThunkDispatcher<Actions, StateT>,

@@ -5,8 +5,8 @@ _Type-safe action creators and reducers for redux and typescript._
 ## In a nutshell
 
 Allows you to write type-safe (plain) reducers and action creators with fewer keystrokes,
-with an opinionated approach that encourages code grouping  by domain, not by
-"framework-function".
+with an opinionated approach that encourages code grouping by domain. _Just write the
+functions_, let the lib care about the messaging and type slinging.
 
 **Expects ts 2.8+**
 
@@ -39,14 +39,14 @@ const newsRedutser = redutser(
 // .reducer has a reducer with exactly the shape you are thinking of.
 const store = createStore( newsRedutser.reducer )
 
-// .actionCreators contains a type-safe action creator map!
+// .actionCreators contains an action creator map
 const actions = newsRedutser.creators
 store.dispatch(actions.feed_append({ articles: [getArticle(5)] }))
 
-// .actionTypes has the action type, and it is meant to be always used with `typeof`.
+// .actionTypes has only the action type, and it is meant to be always used with `typeof`.
 // For use with redux code interop.
-// If you ask it, in real life, it is just an `undefined`.
 function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => void ) {
+  //generated actions put your second parameter inside "payload"
   dispatcher({
     type: 'feed_append',
     payload : {
@@ -54,22 +54,6 @@ function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => vo
     }
   })
 }
-```
-
-## innerRedutser
-
-An inner redutser does the same thing as a redutser, but doesn't require an initial state.
-
-```typescript
-import { innerRedutser } from "redutser"
-import { WholeStateType } from "./index"
-
-const reduts = innerRedutser<WholeStateType>()({
-  allGood: state => ({
-    ...state,
-    allGood: true
-  })
-})
 ```
 
 ## subdomain ( "extends" Redutser )
@@ -83,7 +67,7 @@ const red2 = redutser(initialState, { world: (state) => { ...state, world: 'yes'
 const meatBall = subdomain(initialState, { red1, red2 })
 ```
 
-Action types from the sources are composed into the `payload` parameter. Always type-safe and with editor support, as usual.
+Action types from the sources are composed into the `payload` parameter.
 
 ```typescript
 const action: typeof meatBall.actionTypes = {
@@ -100,29 +84,41 @@ Supplied action creators go one level deeper:
 ```typescript
 store.dispatch(meatBall.creators.red2.world({}))
 ```
-## Utilitary typedefs
 
-Some UTL typedefs also bundled.
+## liftRedutserState( initialOuterState, key: string, innerRedutser ) : redutser
 
-### ThunkDispatcher<ActionTypes, State>
+"Moves up" the state of the `innerRedutser` so you can use it with `subdomain`.
 
-A dispatcher function which actually validates its actions, expecting thunk or object.
+```typescript
+const initialState = {
+  itemA: 'a',
+  itemB:  3
+}
 
-```tsx
-const Component
-  : React.SFC<{ dispatch: ThunkDispatcher<typeof meatBall.actionTypes, MyState> }>
-  = props => (
-    <button onClick={() => props.dispatch(meatBall.creators.red2.world({}))} >
-      LISPscript
-    </button>
-  )
+const innerA = redutser(initialState.itemA, ... )
+const innerB = redutser(initialState.itemB, ... )
+
+//this will fail since innerA has a different state position
+const meatball = subdomain(initialState, { itemA: innerA })
+//this works
+const meatball = subdomain(initialState, {
+  itemA: liftRedutserState(initialState, 'itemA', innerA),
+  itemB: liftRedutserState(initialState, 'itemB', innerB),
+})
 ```
+
+## combineRedutsers ( initialOuterState, innerRedutsers ) : redutser
+
+A shorthand for the example above.
+
+> Typings for this currently not alright. Use the example above.
+
+```typescript
+const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB })
+```
+
 
 ## Known Caveats
 
   - When actions have no parameters, you will still be required to pass an empty object `{}` to the payload.
-  - This currently only bothers with "Level 0/plain/vanilla" actions.
-
-## License
-
-MIT
+  - Some typedefs may be intimidating. (Some may yet need improvement). Fear not, young padawan.
