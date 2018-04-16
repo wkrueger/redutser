@@ -34,10 +34,9 @@ var red3 = redutser_1.redutser(initialState.c, {
         return state && __assign({}, state, { energy: strength == "low" ? state.energy - 2 : state.energy - 5 });
     }
 });
-/*
-const red4 = redutser(initialState.d, {
-  initCat: (state, name: string) => state || { name, meows: true },
-})*/
+var red4 = redutser_1.redutser(initialState.d, {
+    initCat: function (state, name) { return state || { name: name, meows: true }; }
+});
 describe("Subdomain", function () {
     var subd = subdomain_1.subdomain(initialState, { red1: red1, red2: red2 });
     test("Check action formats", function () {
@@ -90,14 +89,83 @@ describe("Move redutser scope up", function () {
         });
     });
 });
-/*
-describe("CombineRedutsers", () => {
-  const combined = combineRedutsers(initialState, { c: red3, d: red4 })
-  const subs = subdomain(initialState, {
-    c: liftRedutserState(initialState, 'c', red3),
-    d: liftRedutserState(initialState, 'd', red4),
-  })
-
-
-})
-*/
+describe("Equivalent", function () {
+    var equivalent = subdomain_1.subdomain(initialState, {
+        c: combine_redutsers_1.liftRedutserState(initialState, "c", red3),
+        d: combine_redutsers_1.liftRedutserState(initialState, "d", red4)
+    });
+    test("Check action format", function () {
+        expect(equivalent.creators.c.bark("low")).toEqual({
+            type: "c",
+            payload: {
+                type: "bark",
+                payload: "low"
+            }
+        });
+        expect(equivalent.creators.d.initCat("bob")).toEqual({
+            type: "d",
+            payload: {
+                type: "initCat",
+                payload: "bob"
+            }
+        });
+    });
+    test("Check reducer output", function () {
+        var store = redux_1.createStore(equivalent.reducer);
+        expect(store.getState()).toEqual(initialState);
+        store.dispatch(equivalent.creators.c.bark("loud"));
+        expect(store.getState()).toEqual(initialState);
+        store.dispatch(equivalent.creators.c.initDog("Rex"));
+        expect(store.getState()).toEqual({
+            a: 1,
+            b: "b",
+            c: { name: "Rex", energy: 50 }
+        });
+        store.dispatch(equivalent.creators.c.bark("loud"));
+        expect(store.getState()).toEqual({
+            a: 1,
+            b: "b",
+            c: { name: "Rex", energy: 45 }
+        });
+    });
+});
+describe("CombineRedutsers", function () {
+    var equivalent = subdomain_1.combineRedutsers(initialState, {
+        c: red3,
+        d: red4
+    });
+    test("Check action format", function () {
+        expect(equivalent.creators.c.bark("low")).toEqual({
+            type: "c",
+            payload: {
+                type: "bark",
+                payload: "low"
+            }
+        });
+        expect(equivalent.creators.d.initCat("bob")).toEqual({
+            type: "d",
+            payload: {
+                type: "initCat",
+                payload: "bob"
+            }
+        });
+    });
+    test("Check reducer output", function () {
+        var store = redux_1.createStore(equivalent.reducer);
+        expect(store.getState()).toEqual(initialState);
+        store.dispatch(equivalent.creators.c.bark("loud"));
+        expect(store.getState()).toEqual(initialState);
+        store.dispatch(equivalent.creators.c.initDog("Rex"));
+        expect(store.getState()).toEqual({
+            a: 1,
+            b: "b",
+            c: { name: "Rex", energy: 50 }
+        });
+        store.dispatch(equivalent.creators.c.bark("loud"));
+        expect(store.getState()).toEqual({
+            a: 1,
+            b: "b",
+            c: { name: "Rex", energy: 45 }
+        });
+    });
+});

@@ -29,14 +29,6 @@ function subdomain(initialState, redutsers) {
     return __assign({}, out, { creators: creators });
 }
 exports.subdomain = subdomain;
-function combineRedutsers(initialState, redutsers) {
-    var lifted = Object.keys(redutsers).reduce(function (out, key) {
-        return __assign({}, out, (_a = {}, _a[key] = combine_redutsers_1.liftRedutserState(initialState, key, redutsers[key]), _a));
-        var _a;
-    }, {});
-    return subdomain(initialState, lifted);
-}
-exports.combineRedutsers = combineRedutsers;
 function _reducerDictFromRedutserDict() {
     return function (dict) {
         return Object.keys(dict).reduce(function (out, key) {
@@ -45,3 +37,11 @@ function _reducerDictFromRedutserDict() {
         }, {});
     };
 }
+function combineRedutsers(initialState, redutsers) {
+    var lifted = Object.keys(redutsers).reduce(function (out, key) {
+        return __assign({}, out, (_a = {}, _a[key] = combine_redutsers_1.liftRedutserState(initialState, key, redutsers[key]), _a));
+        var _a;
+    }, {});
+    return subdomain(initialState, lifted);
+}
+exports.combineRedutsers = combineRedutsers;

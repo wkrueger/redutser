@@ -123,3 +123,7 @@ const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB }
   - When actions have no parameters, you will still be required to pass an empty object `{}` to the payload.
   - Some typedefs may be intimidating. (Some may yet need improvement). Fear not.
   - (TS/VSCode) On some nested structures, editor support may show `any` when it intended to show `...`. Don't be tricked.
+
+## Building
+
+Check the npm scripts.
