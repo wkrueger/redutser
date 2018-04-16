@@ -1,5 +1,7 @@
 # redutser
 
+[![npm version](https://badge.fury.io/js/redutser.svg)](https://badge.fury.io/js/redutser)
+
 _Type-safe action creators and reducers for redux and typescript._
 
 ## In a nutshell
@@ -43,8 +45,8 @@ const store = createStore( newsRedutser.reducer )
 const actions = newsRedutser.creators
 store.dispatch(actions.feed_append({ articles: [getArticle(5)] }))
 
-// .actionTypes has only the action type, and it is meant to be always used with `typeof`.
-// For use with redux code interop.
+// .actionTypes has only the action type, and it is meant to be always
+// used with `typeof`. For use with redux code interop.
 function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => void ) {
   //generated actions put your second parameter inside "payload"
   dispatcher({
