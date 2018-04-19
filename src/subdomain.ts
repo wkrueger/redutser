@@ -1,5 +1,6 @@
 import { redutser, Redutser } from "./redutser"
-import { liftRedutserState } from "./combine-redutsers"
+import { liftRedutserState, LiftRedutserState } from "./combine-redutsers"
+import { Exactify } from "../type-helpers"
 
 export type RedutserDict<State> = {
   [k: string]: Redutser<State, any>
@@ -73,9 +74,14 @@ function _reducerDictFromRedutserDict<State>() {
   }
 }
 
+// https://stackoverflow.com/questions/49858826/mapped-types-function-parameters-enigma/49868362
+// thank you!
 export function combineRedutsers<
   State,
-  RedDict extends { [k in keyof State]?: Redutser<State[k], any> }
+  RedDict extends Exactify<
+    { [k in keyof State]?: Redutser<State[k], any> },
+    RedDict
+  >
 >(initialState: State, redutsers: RedDict) {
   const lifted = Object.keys(redutsers).reduce(
     (out, key: any) => {
@@ -85,7 +91,11 @@ export function combineRedutsers<
       }
     },
     {} as any
-  ) as { [k in keyof RedDict]: any /*LiftRedutserState<State, k, RedDict[k]>*/ }
+  ) as {
+    [k in keyof RedDict]: RedDict[k] extends Redutser<any, any>
+      ? LiftRedutserState<State, RedDict[k]>
+      : never
+  }
 
   return subdomain(initialState, lifted)
 }

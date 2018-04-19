@@ -75,11 +75,18 @@ export const liftDictState = <StateOuter>() => <
 
 export type DictOfRedutser<R> = R extends Redutser<any, infer D> ? D : never
 
+/*
 export type LiftRedutserState<
   OuterState,
   Key extends keyof OuterState,
   Red extends Redutser<OuterState[Key], any>
 > = Redutser<OuterState, ReplaceDictState<DictOfRedutser<Red>, OuterState>>
+*/
+
+export type LiftRedutserState<
+  State,
+  Red extends Redutser<any, any> | undefined
+> = Redutser<State, ReplaceDictState<DictOfRedutser<Red>, State>>
 
 /**
  * "Lifts up" the state of a redutser.

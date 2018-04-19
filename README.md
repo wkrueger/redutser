@@ -113,8 +113,6 @@ const meatball = subdomain(initialState, {
 
 A shorthand for the example above.
 
-> Typings for this currently not alright. Use the example above for accurate checking.
-
 ```typescript
 const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB })
 ```

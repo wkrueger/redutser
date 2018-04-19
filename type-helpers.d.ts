@@ -13,3 +13,6 @@ export interface ThunkDispatcher<Actions, State> {
   (i: Actions): void
   (fn: ThunkFunction<Actions, State>): void
 }
+
+export type Exactify<T, X extends T> = T &
+  { [K in keyof X]: K extends keyof T ? X[K] : never }

@@ -8,7 +8,7 @@ export declare type ReplaceDictState<Dict extends ReducerDict<any>, StateOuter> 
  */
 export declare const liftDictState: <StateOuter>() => <K extends keyof StateOuter, Dict extends ReducerDict<StateOuter[K]>>(mapKey: K, dict: Dict) => ReplaceDictState<Dict, StateOuter>;
 export declare type DictOfRedutser<R> = R extends Redutser<any, infer D> ? D : never;
-export declare type LiftRedutserState<OuterState, Key extends keyof OuterState, Red extends Redutser<OuterState[Key], any>> = Redutser<OuterState, ReplaceDictState<DictOfRedutser<Red>, OuterState>>;
+export declare type LiftRedutserState<State, Red extends Redutser<any, any> | undefined> = Redutser<State, ReplaceDictState<DictOfRedutser<Red>, State>>;
 /**
  * "Lifts up" the state of a redutser.
  */

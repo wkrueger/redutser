@@ -37,6 +37,8 @@ function _reducerDictFromRedutserDict() {
         }, {});
     };
 }
+// https://stackoverflow.com/questions/49858826/mapped-types-function-parameters-enigma/49868362
+// thank you!
 function combineRedutsers(initialState, redutsers) {
     var lifted = Object.keys(redutsers).reduce(function (out, key) {
         return __assign({}, out, (_a = {}, _a[key] = combine_redutsers_1.liftRedutserState(initialState, key, redutsers[key]), _a));
