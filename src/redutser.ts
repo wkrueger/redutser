@@ -45,6 +45,7 @@ export function redutser<State, Dict extends ReducerDict<State>>(
   return {
     creators,
     reducer,
+    initialState,
     actionTypes: (undefined as any) as ActionTypesFromReducerDict<Dict>,
     __redutser__: true,
     _reducerDict: reducerDict,
@@ -58,6 +59,7 @@ export interface Redutser<State, Dict extends ReducerDict<State>> {
     state: State | undefined,
     action: H.FnReturn<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>
   ) => State
+  initialState: State
   actionTypes: ActionTypesFromReducerDict<Dict>
   __redutser__: boolean
   _reducerDict: Dict
