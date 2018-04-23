@@ -27,6 +27,7 @@ function redutser(initialState, reducerDict) {
     return {
         creators: creators,
         reducer: reducer,
+        initialState: initialState,
         actionTypes: undefined,
         __redutser__: true,
         _reducerDict: reducerDict

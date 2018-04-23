@@ -18,6 +18,7 @@ export declare function subdomain<State, Redutsers extends RedutserDict<State>>(
         type: K;
         payload: ReducerDictFromRedutserDict<Redutsers, State>[K] extends (x: any, y: infer V) => any ? V : never;
     }; }[keyof Redutsers] extends (...x: any[]) => infer V ? V : never) => State;
+    initialState: State;
     actionTypes: { [K in keyof Redutsers]: (payload: ReducerDictFromRedutserDict<Redutsers, State>[K] extends (x: any, y: infer V) => any ? V : never) => {
         type: K;
         payload: ReducerDictFromRedutserDict<Redutsers, State>[K] extends (x: any, y: infer V) => any ? V : never;
@@ -36,6 +37,7 @@ export declare function combineRedutsers<State, RedDict extends Exactify<{
         type: K;
         payload: ReducerDictFromRedutserDict<{ [k in keyof RedDict]: RedDict[k] extends Redutser<any, any> ? Redutser<State, { [DictKey in keyof (RedDict[k] extends Redutser<any, infer D> ? D : never)]: (RedDict[k] extends Redutser<any, infer D> ? D : never)[DictKey] extends (s: any, p: infer P) => any ? (s: State, p: P) => State : never; }> : never; }, State>[K] extends (x: any, y: infer V) => any ? V : never;
     }; }[keyof RedDict] extends (...x: any[]) => infer V ? V : never) => State;
+    initialState: State;
     actionTypes: { [K in keyof RedDict]: (payload: ReducerDictFromRedutserDict<{ [k in keyof RedDict]: RedDict[k] extends Redutser<any, any> ? Redutser<State, { [DictKey in keyof (RedDict[k] extends Redutser<any, infer D> ? D : never)]: (RedDict[k] extends Redutser<any, infer D> ? D : never)[DictKey] extends (s: any, p: infer P) => any ? (s: State, p: P) => State : never; }> : never; }, State>[K] extends (x: any, y: infer V) => any ? V : never) => {
         type: K;
         payload: ReducerDictFromRedutserDict<{ [k in keyof RedDict]: RedDict[k] extends Redutser<any, any> ? Redutser<State, { [DictKey in keyof (RedDict[k] extends Redutser<any, infer D> ? D : never)]: (RedDict[k] extends Redutser<any, infer D> ? D : never)[DictKey] extends (s: any, p: infer P) => any ? (s: State, p: P) => State : never; }> : never; }, State>[K] extends (x: any, y: infer V) => any ? V : never;
