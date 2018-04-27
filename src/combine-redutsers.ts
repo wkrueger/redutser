@@ -1,4 +1,4 @@
-import { Reducer, Redutser, redutser, ReducerDict } from "./redutser"
+import { Reducer, Redutser, createRedutser, ReducerDict } from "./redutser"
 
 /**
  * A pair of functions that handle the state conversion in and out.
@@ -106,5 +106,5 @@ export const liftRedutserState = <
     //a previous less "hacky" approach brought inference issues.
     _red._reducerDict as DictOfRedutser<R>
   )
-  return redutser(state, dictMapped)
+  return createRedutser(state, dictMapped)
 }

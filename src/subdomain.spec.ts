@@ -1,4 +1,4 @@
-import { redutser } from "./redutser"
+import { createRedutser } from "./redutser"
 import { subdomain, combineRedutsers } from "./subdomain"
 import { createStore } from "redux"
 import { liftRedutserState } from "./combine-redutsers"
@@ -11,7 +11,7 @@ const initialState = {
 }
 
 // 1 and 2 share the same state
-const red1 = redutser(initialState, {
+const red1 = createRedutser(initialState, {
   increment: (state, count: number) => ({
     ...state,
     a: state.a + count,
@@ -22,12 +22,12 @@ const red1 = redutser(initialState, {
   }),
   doNothing: state => state,
 })
-const red2 = redutser(initialState, {
+const red2 = createRedutser(initialState, {
   reset: () => initialState,
 })
 
 // 3 and 4 work on "substates"
-const red3 = redutser(initialState.c, {
+const red3 = createRedutser(initialState.c, {
   initDog: (state, name: string) => state || { name, energy: 50 },
   bark: (state, strength: "low" | "loud") =>
     state && {
@@ -36,7 +36,7 @@ const red3 = redutser(initialState.c, {
     },
 })
 
-const red4 = redutser(initialState.d, {
+const red4 = createRedutser(initialState.d, {
   initCat: (state, name: string) => state || { name, meows: true },
 })
 

@@ -19,22 +19,22 @@ var initialState = {
     d: undefined
 };
 // 1 and 2 share the same state
-var red1 = redutser_1.redutser(initialState, {
+var red1 = redutser_1.createRedutser(initialState, {
     increment: function (state, count) { return (__assign({}, state, { a: state.a + count })); },
     concat: function (state, act) { return (__assign({}, state, { b: state.b + act.text })); },
     doNothing: function (state) { return state; }
 });
-var red2 = redutser_1.redutser(initialState, {
+var red2 = redutser_1.createRedutser(initialState, {
     reset: function () { return initialState; }
 });
 // 3 and 4 work on "substates"
-var red3 = redutser_1.redutser(initialState.c, {
+var red3 = redutser_1.createRedutser(initialState.c, {
     initDog: function (state, name) { return state || { name: name, energy: 50 }; },
     bark: function (state, strength) {
         return state && __assign({}, state, { energy: strength == "low" ? state.energy - 2 : state.energy - 5 });
     }
 });
-var red4 = redutser_1.redutser(initialState.d, {
+var red4 = redutser_1.createRedutser(initialState.d, {
     initCat: function (state, name) { return state || { name: name, meows: true }; }
 });
 describe("Subdomain", function () {

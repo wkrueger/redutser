@@ -15,7 +15,7 @@ var combine_redutsers_1 = require("./combine-redutsers");
  */
 function subdomain(initialState, redutsers) {
     var reducerDict = _reducerDictFromRedutserDict()(redutsers);
-    var out = redutser_1.redutser(initialState, reducerDict);
+    var out = redutser_1.createRedutser(initialState, reducerDict);
     var creators = Object.keys(redutsers).reduce(function (reduced, key) {
         return (__assign({}, reduced, (_a = {}, _a[key] = Object.keys(redutsers[key].creators).reduce(function (o2, k2) {
             return (__assign({}, o2, (_a = {}, _a[k2] = function (i) { return ({

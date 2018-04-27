@@ -13,7 +13,7 @@ functions_, let the lib care about the messaging and type slinging.
 **Expects ts 2.8+**
 
 ```typescript
-import redutser from 'redutser'
+import createRedutser from 'redutser'
 import { createStore } from 'redux'
 
 const initialState = {
@@ -24,7 +24,7 @@ const initialState = {
 
 // it is recommended that the 2nd param is always declared inline, for
 // inference reasons.
-const newsRedutser = redutser(
+const newsRedutser = createRedutser(
   initialState,
   {
     article_edit : (state, act: { articleId: number, content: string }) => ({
@@ -63,8 +63,8 @@ function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => vo
 Glues other `redutser`s for a bigger purpose, creating a compound redutser. They are expected to share the same state type.
 
 ```typescript
-const red1 = redutser(initialState, { hello: (state) => { ...state, hello: 'yes' } })
-const red2 = redutser(initialState, { world: (state) => { ...state, world: 'yes' } })
+const red1 = createRedutser(initialState, { hello: (state) => { ...state, hello: 'yes' } })
+const red2 = createRedutser(initialState, { world: (state) => { ...state, world: 'yes' } })
 
 const meatBall = subdomain(initialState, { red1, red2 })
 ```
@@ -97,8 +97,8 @@ const initialState = {
   itemB:  3
 }
 
-const innerA = redutser(initialState.itemA, ... )
-const innerB = redutser(initialState.itemB, ... )
+const innerA = createRedutser(initialState.itemA, ... )
+const innerB = createRedutser(initialState.itemB, ... )
 
 //this will fail since innerA has a different state position
 const meatball = subdomain(initialState, { itemA: innerA })

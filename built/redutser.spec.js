@@ -12,7 +12,7 @@ var redutser_1 = require("./redutser");
 var redux_1 = require("redux");
 function createSomething() {
     var initialState = { a: 1, b: "b" };
-    var red = redutser_1.redutser(initialState, {
+    var red = redutser_1.createRedutser(initialState, {
         increment: function (state, count) { return (__assign({}, state, { a: state.a + count })); },
         concat: function (state, act) { return (__assign({}, state, { b: state.b + act.text })); },
         doNothing: function (state) { return state; }

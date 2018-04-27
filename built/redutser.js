@@ -8,7 +8,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 exports.__esModule = true;
-function redutser(initialState, reducerDict) {
+function createRedutser(initialState, reducerDict) {
     var creators = _actionCreatorsFromReducerDict()(reducerDict);
     function reducer(state, action) {
         if (state === void 0) { state = initialState; }
@@ -33,7 +33,7 @@ function redutser(initialState, reducerDict) {
         _reducerDict: reducerDict
     };
 }
-exports.redutser = redutser;
+exports.createRedutser = createRedutser;
 function _actionCreatorsFromReducerDict() {
     return function (dict) {
         return Object.keys(dict).reduce(function (out, name) {

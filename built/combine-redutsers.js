@@ -49,5 +49,5 @@ exports.liftRedutserState = function (state, key, _red) {
     //this might feel a bit hacky but thats what worked better wth the inference atm
     //a previous less "hacky" approach brought inference issues.
     _red._reducerDict);
-    return redutser_1.redutser(state, dictMapped);
+    return redutser_1.createRedutser(state, dictMapped);
 };

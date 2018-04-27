@@ -16,7 +16,7 @@ export type ActionTypesFromReducerDict<
   Inp extends ReducerDict<any>
 > = H.FnReturn<H.Values<ActionCreatorsFromReducerDict<Inp>>>
 
-export function redutser<State, Dict extends ReducerDict<State>>(
+export function createRedutser<State, Dict extends ReducerDict<State>>(
   initialState: State,
   reducerDict: Dict
 ): Redutser<State, Dict> {

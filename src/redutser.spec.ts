@@ -1,10 +1,10 @@
-import { redutser } from "./redutser"
+import { createRedutser } from "./redutser"
 import { createStore } from "redux"
 
 function createSomething() {
   const initialState = { a: 1, b: "b" }
 
-  const red = redutser(initialState, {
+  const red = createRedutser(initialState, {
     increment: (state, count: number) => ({
       ...state,
       a: state.a + count,

@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var redutser_1 = require("./redutser");
-exports.redutser = redutser_1.redutser;
+exports.createRedutser = redutser_1.createRedutser;
 var subdomain_1 = require("./subdomain");
 exports.subdomain = subdomain_1.subdomain;
 exports.combineRedutsers = subdomain_1.combineRedutsers;

@@ -1,4 +1,4 @@
-import { redutser, Redutser } from "./redutser"
+import { createRedutser, Redutser } from "./redutser"
 import { liftRedutserState, LiftRedutserState } from "./combine-redutsers"
 import { Exactify } from "../type-helpers"
 
@@ -37,7 +37,7 @@ export function subdomain<State, Redutsers extends RedutserDict<State>>(
   redutsers: Redutsers
 ) {
   const reducerDict = _reducerDictFromRedutserDict<State>()(redutsers)
-  const out = redutser(initialState, reducerDict)
+  const out = createRedutser(initialState, reducerDict)
   const creators = Object.keys(redutsers).reduce(
     (reduced, key) => ({
       ...reduced,
