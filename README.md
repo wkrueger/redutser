@@ -6,15 +6,23 @@ _Type-safe action creators and reducers for redux and typescript._
 
 ## In a nutshell
 
-Allows you to write type-safe (plain) reducers and action creators with fewer keystrokes,
-with an opinionated approach that encourages code grouping by domain. _Just write the
-functions_, let the lib care about the messaging and type slinging.
+Allows you to write type-safe reducers with fewer keystrokes. _Just write the
+functions_, the lib cares about the action creators and the types.
 
 **Expects ts 2.8+**
 
+### Why this?
+
+This lib is mainly focused on generating accurate typing from your code. No `any`s or `{}` anywhere.
+
+## createRedutser( initialState, actionsDict ): Redutser
+
+`actionsDict` is an object which keys will become the _action types_, and which values
+will become the _reducer logic_.
+
+
 ```typescript
-import createRedutser from 'redutser'
-import { createStore } from 'redux'
+import { createRedutser } from 'redutser'
 
 const initialState = {
   newsFeed: NewsArticle[]
@@ -22,8 +30,6 @@ const initialState = {
     { articleId: number, content: string } | undefined
 }
 
-// it is recommended that the 2nd param is always declared inline, for
-// inference reasons.
 const newsRedutser = createRedutser(
   initialState,
   {
@@ -37,18 +43,48 @@ const newsRedutser = createRedutser(
     })
   }
 )
+```
 
+When writing the `actionDict` (second parameter), it is expected that:
+
+  - Each value is a function with shape `(prevState: State, action: A) => State`;
+  - The `State` type is inferred from the initial state you formerly passed as the 1st argument;
+  - You need to supply the second argument's type.
+  - You write `actionsDict` directly inside the `createRedutser` call ("inline"), otherwise
+  you'd need to duck-type the `State` type for every item.
+
+
+The returning object has the following properties:
+
+### Redutser#reducer
+
+The generated reducer function, which you can directly feed into `createStore` or compose
+with another reducer.
+
+```ts
 // .reducer has a reducer with exactly the shape you are thinking of.
 const store = createStore( newsRedutser.reducer )
+```
 
+### Redutser#creators
+
+A collection of action creators, properly named and typed according to the `actionDict` you
+previously supplied.
+
+
+```ts
 // .actionCreators contains an action creator map
 const actions = newsRedutser.creators
 store.dispatch(actions.feed_append({ articles: [getArticle(5)] }))
+```
 
-// .actionTypes has only the action type, and it is meant to be always
-// used with `typeof`. For use with redux code interop.
+### Redutser#actionTypes
+
+This exports the generated reducer's action type. Which is a union of all of the possible
+action inputs. You can use this to describe really accurate dispatch functions.
+
+```ts
 function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => void ) {
-  //generated actions put your second parameter inside "payload"
   dispatcher({
     type: 'feed_append',
     payload : {
@@ -57,6 +93,8 @@ function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => vo
   })
 }
 ```
+
+Note: this meant to be always used with `typeof`.
 
 ## subdomain ( "extends" Redutser )
 
@@ -89,7 +127,7 @@ store.dispatch(meatBall.creators.red2.world({}))
 
 ## liftRedutserState( initialOuterState, key: string, innerRedutser ) : redutser
 
-"Moves up" the state of the `innerRedutser` so you can use it with `subdomain`.
+This is an utility which "moves up" the state of the `innerRedutser`.
 
 ```typescript
 const initialState = {
@@ -111,7 +149,8 @@ const meatball = subdomain(initialState, {
 
 ## combineRedutsers ( initialOuterState, innerRedutsers ) : redutser
 
-A shorthand for the example above.
+A shorthand for the example above. The name is on purpose, is "combines" `reduTsers`
+which operate on subsets of the root state.
 
 ```typescript
 const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB })
@@ -121,8 +160,7 @@ const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB }
 ## Known Caveats
 
   - When actions have no parameters, you will still be required to pass an empty object `{}` to the payload.
-  - (Redux) If using redux 3.x, you might want to disable `strictFunctionTypes` compiler options. `4.x` typings work great.
-  - (TS/VSCode) On some nested structures, editor support may show `any` when it intended to show `...`. Don't be tricked.
+  - (Redux) If using redux 3.x, you might want to disable `strictFunctionTypes` compiler options (thats a general redux+ts issue). `4.x` typings work great and are highly recommended.
 
 ## Building
 
