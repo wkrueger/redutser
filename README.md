@@ -25,7 +25,7 @@ will become the _reducer logic_.
 import { createRedutser } from 'redutser'
 
 const initialState = {
-  newsFeed: NewsArticle[]
+  newsFeed: [] as NewsArticle[],
   editArticleDialog: undefined as
     { articleId: number, content: string } | undefined
 }
