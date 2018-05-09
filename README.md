@@ -13,7 +13,7 @@ functions_, the lib cares about the action creators and the types.
 
 ### Why this?
 
-This lib is mainly focused on generating accurate typing from your code. No `any`s or `{}` anywhere.
+This lib is mainly focused on generating accurate typing from your code. No `any`s or `{}`. The reducer-writing pattern here is absolutely nothing new.
 
 ## createRedutser( initialState, actionsDict ): Redutser
 
@@ -25,7 +25,7 @@ will become the _reducer logic_.
 import { createRedutser } from 'redutser'
 
 const initialState = {
-  newsFeed: NewsArticle[]
+  newsFeed: [] as NewsArticle[],
   editArticleDialog: undefined as
     { articleId: number, content: string } | undefined
 }
