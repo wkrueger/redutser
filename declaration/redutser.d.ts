@@ -1,7 +1,7 @@
 import * as H from "../type-helpers";
 export declare type Reducer<State, Payload = any> = (s: State, p: Payload) => State;
 export declare type ReducerDict<State> = {
-    [name: string]: Reducer<State>;
+    [name: string]: (s: State, p: any) => State;
 };
 export declare type ActionCreatorsFromReducerDict<Inp extends ReducerDict<any>> = {
     [K in keyof Inp]: (payload: H.SecondArg<Inp[K]>) => {

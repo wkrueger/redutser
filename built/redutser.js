@@ -12,15 +12,8 @@ function createRedutser(initialState, reducerDict) {
     var creators = _actionCreatorsFromReducerDict()(reducerDict);
     function reducer(state, action) {
         if (state === void 0) { state = initialState; }
-        if (initialState === undefined) {
-            console.error("redutser unexpected: undefined state.");
-        }
-        var handler = reducerDict[action.type];
-        if (handler) {
-            return handler(state, action.payload);
-        }
-        else if (String(action.type).substr(0, 2) !== "@@") {
-            console.error("redutser unexpected: handler not found for action", action.type);
+        if (reducerDict[action.type]) {
+            return reducerDict[action.type](state, action.payload);
         }
         return state;
     }

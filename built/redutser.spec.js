@@ -48,4 +48,17 @@ describe("redutser", function () {
         store.dispatch(creators.doNothing({}));
         expect(store.getState()).toEqual({ a: 3, b: "bcc" });
     });
+    test("bind to self", function () {
+        var initialState = { a: 1 };
+        redutser_1.createRedutser(initialState, {
+            increment: function (state, act) {
+                return {
+                    a: state.a + act.by
+                };
+            },
+            times: function (state, act) {
+                return this.increment(state, { by: act.by * act.times });
+            }
+        });
+    });
 });

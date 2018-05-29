@@ -3,7 +3,7 @@ import * as H from "../type-helpers"
 export type Reducer<State, Payload = any> = (s: State, p: Payload) => State
 
 export type ReducerDict<State> = {
-  [name: string]: Reducer<State>
+  [name: string]: (s: State, p: any) => State
 }
 
 export type ActionCreatorsFromReducerDict<Inp extends ReducerDict<any>> = {
@@ -16,28 +16,19 @@ export type ActionTypesFromReducerDict<
   Inp extends ReducerDict<any>
 > = H.FnReturn<H.Values<ActionCreatorsFromReducerDict<Inp>>>
 
-export function createRedutser<State, Dict extends ReducerDict<State>>(
-  initialState: State,
+export const createRedutser2 = <State>(initialState: State) => <
+  Dict extends ReducerDict<State>
+>(
   reducerDict: Dict
-): Redutser<State, Dict> {
+): Redutser<State, Dict> => {
   const creators = _actionCreatorsFromReducerDict()(reducerDict)
 
   function reducer(
     state = initialState,
     action: ActionTypesFromReducerDict<Dict>
   ): State {
-    if (initialState === undefined) {
-      console.error("redutser unexpected: undefined state.")
-    }
-
-    const handler = reducerDict[action.type]
-    if (handler) {
-      return handler(state, action.payload)
-    } else if (String(action.type).substr(0, 2) !== "@@") {
-      console.error(
-        "redutser unexpected: handler not found for action",
-        action.type
-      )
+    if (reducerDict[action.type]) {
+      return reducerDict[action.type](state, action.payload)
     }
     return state
   }
@@ -50,6 +41,13 @@ export function createRedutser<State, Dict extends ReducerDict<State>>(
     __redutser__: true,
     _reducerDict: reducerDict,
   }
+}
+
+export const createRedutser = <State, Dict extends ReducerDict<State>>(
+  initialState: State,
+  reducerDict: Dict
+) => {
+  return createRedutser2(initialState)(reducerDict)
 }
 
 // copy-pasted, maybe helps something
