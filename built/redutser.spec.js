@@ -50,7 +50,7 @@ describe("redutser", function () {
     });
     test("bind to self", function () {
         var initialState = { a: 1 };
-        redutser_1.createRedutser2(initialState)({
+        var red = redutser_1.createRedutser2(initialState)({
             increment: function (state, act) {
                 return {
                     a: state.a + act.by
@@ -60,5 +60,8 @@ describe("redutser", function () {
                 return this.increment(state, { by: act.by * act.times });
             }
         });
+        var store = redux_1.createStore(red.reducer);
+        store.dispatch(red.creators.times({ by: 2, times: 3 }));
+        expect(store.getState()).toEqual({ a: 7 });
     });
 });
