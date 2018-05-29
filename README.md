@@ -55,6 +55,7 @@ When writing the `actionDict` (second parameter), it is expected that:
   - You write `actionsDict` directly inside the `createRedutser` call ("inline"), otherwise
   you'd need to duck-type the `State` type for every item.
 
+Using `this`? [See caveat](#this-usage).
 
 The returning object has the following properties:
 
@@ -159,10 +160,17 @@ const meatball = combineRedutsers(initialState, { itemA: innerA, itemB: innerB }
 ```
 
 
-## Known Caveats
+# Known Caveats
 
   - When actions have no parameters, you will still be required to pass an empty object `{}` to the payload.
   - (Redux) If using redux 3.x, you might want to disable `strictFunctionTypes` compiler options (thats a general redux+ts issue). `4.x` typings work great and are highly recommended.
+
+## <a name="this-usage"></a> Using `this` on createRedutser
+
+Typescript has inference issues when using `this` on createReducer ( [issue](https://github.com/wkrueger/redutser/issues/2) ). You may choose a new "curried" alternate version of the function: `createRedutser2(initialState)({ ...reducer })` which
+works better with the inference.
+
+
 
 ## Building
 

@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var redutser_1 = require("./redutser");
 exports.createRedutser = redutser_1.createRedutser;
+exports.createRedutser2 = redutser_1.createRedutser2;
 var subdomain_1 = require("./subdomain");
 exports.subdomain = subdomain_1.subdomain;
 exports.combineRedutsers = subdomain_1.combineRedutsers;

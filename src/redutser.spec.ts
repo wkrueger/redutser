@@ -1,4 +1,4 @@
-import { createRedutser } from "./redutser"
+import { createRedutser, createRedutser2 } from "./redutser"
 import { createStore } from "redux"
 
 function createSomething() {
@@ -52,5 +52,22 @@ describe("redutser", () => {
 
     store.dispatch(creators.doNothing({}))
     expect(store.getState()).toEqual({ a: 3, b: "bcc" })
+  })
+
+  test("bind to self", () => {
+    const initialState = { a: 1 }
+    const red = createRedutser2(initialState)({
+      increment(state, act: { by: number }) {
+        return {
+          a: state.a + act.by,
+        }
+      },
+      times(state, act: { by: number; times: number }) {
+        return this.increment(state, { by: act.by * act.times })
+      },
+    })
+    const store = createStore(red.reducer)
+    store.dispatch(red.creators.times({ by: 2, times: 3 }))
+    expect(store.getState()).toEqual({ a: 7 })
   })
 })

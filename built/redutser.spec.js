@@ -48,4 +48,20 @@ describe("redutser", function () {
         store.dispatch(creators.doNothing({}));
         expect(store.getState()).toEqual({ a: 3, b: "bcc" });
     });
+    test("bind to self", function () {
+        var initialState = { a: 1 };
+        var red = redutser_1.createRedutser2(initialState)({
+            increment: function (state, act) {
+                return {
+                    a: state.a + act.by
+                };
+            },
+            times: function (state, act) {
+                return this.increment(state, { by: act.by * act.times });
+            }
+        });
+        var store = redux_1.createStore(red.reducer);
+        store.dispatch(red.creators.times({ by: 2, times: 3 }));
+        expect(store.getState()).toEqual({ a: 7 });
+    });
 });
