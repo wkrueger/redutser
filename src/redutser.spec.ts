@@ -56,7 +56,7 @@ describe("redutser", () => {
 
   test("bind to self", () => {
     const initialState = { a: 1 }
-    createRedutser2(initialState)({
+    const red = createRedutser2(initialState)({
       increment(state, act: { by: number }) {
         return {
           a: state.a + act.by,
@@ -66,5 +66,8 @@ describe("redutser", () => {
         return this.increment(state, { by: act.by * act.times })
       },
     })
+    const store = createStore(red.reducer)
+    store.dispatch(red.creators.times({ by: 2, times: 3 }))
+    expect(store.getState()).toEqual({ a: 7 })
   })
 })
