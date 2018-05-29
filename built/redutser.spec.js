@@ -50,7 +50,7 @@ describe("redutser", function () {
     });
     test("bind to self", function () {
         var initialState = { a: 1 };
-        redutser_1.createRedutser(initialState, {
+        redutser_1.createRedutser2(initialState)({
             increment: function (state, act) {
                 return {
                     a: state.a + act.by

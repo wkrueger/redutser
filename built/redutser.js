@@ -8,7 +8,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 exports.__esModule = true;
-function createRedutser(initialState, reducerDict) {
+exports.createRedutser2 = function (initialState) { return function (reducerDict) {
     var creators = _actionCreatorsFromReducerDict()(reducerDict);
     function reducer(state, action) {
         if (state === void 0) { state = initialState; }
@@ -25,8 +25,10 @@ function createRedutser(initialState, reducerDict) {
         __redutser__: true,
         _reducerDict: reducerDict
     };
-}
-exports.createRedutser = createRedutser;
+}; };
+exports.createRedutser = function (initialState, reducerDict) {
+    return exports.createRedutser2(initialState)(reducerDict);
+};
 function _actionCreatorsFromReducerDict() {
     return function (dict) {
         return Object.keys(dict).reduce(function (out, name) {
