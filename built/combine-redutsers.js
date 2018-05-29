@@ -15,8 +15,8 @@ var redutser_1 = require("./redutser");
 var mapToKey = function () { return function (key) { return ({
     mapToInner: function (s) { return s[key]; },
     mapToOuter: function (sin, sout) {
-        return (__assign({}, sout, (_a = {}, _a[key] = sin, _a)));
         var _a;
+        return (__assign({}, sout, (_a = {}, _a[key] = sin, _a)));
     }
 }); }; };
 /**
@@ -36,9 +36,9 @@ var mapReducerState = function () { return function (mapper) {
  */
 exports.liftDictState = function () { return function (mapKey, dict) {
     return Object.keys(dict).reduce(function (out, dictKey) {
+        var _a;
         var mapObj = mapToKey()(mapKey);
         return __assign({}, out, (_a = {}, _a[dictKey] = mapReducerState()(mapObj)(dict[dictKey]), _a));
-        var _a;
     }, {});
 }; };
 /**

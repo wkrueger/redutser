@@ -27,8 +27,8 @@ export const createRedutser2 = <State>(initialState: State) => <
     state = initialState,
     action: ActionTypesFromReducerDict<Dict>
   ): State {
-    if (reducerDict[action.type]) {
-      return reducerDict[action.type](state, action.payload)
+    if (reducerDict[(action as any).type]) {
+      return reducerDict[(action as any).type](state, (action as any).payload)
     }
     return state
   }

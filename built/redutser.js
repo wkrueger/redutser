@@ -32,8 +32,8 @@ exports.createRedutser = function (initialState, reducerDict) {
 function _actionCreatorsFromReducerDict() {
     return function (dict) {
         return Object.keys(dict).reduce(function (out, name) {
-            return (__assign({}, out, (_a = {}, _a[name] = function (i) { return ({ type: name, payload: i }); }, _a)));
             var _a;
+            return (__assign({}, out, (_a = {}, _a[name] = function (i) { return ({ type: name, payload: i }); }, _a)));
         }, {});
     };
 }
