@@ -14,7 +14,7 @@ export type ActionCreatorsFromReducerDict<Inp extends ReducerDict<any>> = {
 
 export type ActionTypesFromReducerDict<
   Inp extends ReducerDict<any>
-> = H.FnReturn<H.Values<ActionCreatorsFromReducerDict<Inp>>>
+> = ReturnType<H.Values<ActionCreatorsFromReducerDict<Inp>>>
 
 export const createRedutser2 = <State>(initialState: State) => <
   Dict extends ReducerDict<State>
@@ -55,7 +55,7 @@ export interface Redutser<State, Dict extends ReducerDict<State>> {
   creators: ActionCreatorsFromReducerDict<Dict>
   reducer: (
     state: State | undefined,
-    action: H.FnReturn<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>
+    action: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>
   ) => State
   initialState: State
   actionTypes: ActionTypesFromReducerDict<Dict>
