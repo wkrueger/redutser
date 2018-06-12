@@ -28,7 +28,7 @@
     "jest": "^22.4.3",
     "redux": "^4.0.0-rc.1",
     "ts-jest": "^22.4.3",
-    "typescript": "^2.9.1-insiders.20180525"
+    "typescript": "2.9"
   },
   "dependencies": {}
 }

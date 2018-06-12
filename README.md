@@ -96,8 +96,79 @@ function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => vo
   })
 }
 ```
-
 Note: this meant to be always used with `typeof`.
+
+### Redutser#plug
+
+> experimental
+
+This is intended to be a quick shorthand for `react-redux.connect`. (react-redux is required as a peer dependency in order to use this).
+
+```tsx
+const comp = redutser.plug
+  .ownProps<{ type: string }>()
+  .mapProps(
+    state => ({ people: state.people }),
+    dispatcher => ({
+      addPerson: (p: Person) => dispatcher({ type: 'add', person: p })
+    })
+  )
+  .component( p => {
+    return <>
+      <button value="Add" onClick={() => p.addPerson(Person())}/>
+      <ul>
+        {p.people.map( person => <li>{person.name}</li> )}
+      </ul>
+    </>
+  })
+```
+
+  - In order to simplify, only a subset of `connect`'s use cases is covered;
+  - The `connect`'s type arguments are spread into separate function calls in order to aid inference (that's a workaround for the lack partial argument inference);
+  - `State` and `ActionTypes` inferred from context redutser;
+  - `ownProps` type argument is optional and defaults to `{}`
+  - `mapProps` arguments are optional and default to:
+    - `state => state` (feed the whole state into props)
+    - `dispatch => ({ dispatch })` (feed the dispatcher into props)
+  - (fixme) Currently the injected dispatcher has a hardcoded typing for a thunk store;
+
+This is also available as a root export (in that case, it takes the redutser as 1st parameter just for type inference).
+
+### Redutser#plugShort
+
+> experimental
+
+Same as `plug`, but without the method name eye candy (a bit more lisp-y, if you ask).
+
+```tsx
+const comp = redutser.plugShort()()( p => <pre>{p}</pre> )
+```
+
+### Redutser#createEffects
+
+> experimental
+
+Usage: In a similar trick we do with `.createRedutser`, provide a dict of "effects" functions.
+
+```tsx
+const fx = redutser.createEffects({
+  addPerson: (whatPerson: Person) => async dispatch => {
+    dispatch(redutser.creators.isWorking({}))
+    await db.upsert(whatPerson)
+    dispatch(redutser.creators.success({}))
+    await fx.updateList()(dispatch)
+  },
+  updateList: () => async dispatch => {
+    ///...
+  }
+})
+store.dispatch(fx.addPerson(Person()))
+```
+By "effects", we mean here functions intended to work with middleware-enhanced stores, contrary to "plain reducers".
+
+`.createEffects` does no runtime change to the supplied dict, the construct is used to provide additional inferred types and type validation for it. For instance, `dispatch` comes with a proper strictly typed dispatcher function.
+
+(fixme) This currently comes with hardcoded typings for a thunk store. (todo) Work around using the default store types and/or extending through custom declaration merging.
 
 ## subdomain ( "extends" Redutser )
 
