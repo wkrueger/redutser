@@ -137,6 +137,7 @@ This is also available as a root export (in that case, it takes the redutser as 
 ### Redutser#plugShort
 
 > experimental
+> to-be-implemented
 
 Same as `plug`, but without the method name eye candy (a bit more lisp-y, if you ask).
 
@@ -147,6 +148,7 @@ const comp = redutser.plugShort()()( p => <pre>{p}</pre> )
 ### Redutser#createEffects
 
 > experimental
+> to-be-implemented
 
 Usage: In a similar trick we do with `.createRedutser`, provide a dict of "effects" functions.
 
@@ -166,7 +168,7 @@ store.dispatch(fx.addPerson(Person()))
 ```
 By "effects", we mean here functions intended to work with middleware-enhanced stores, contrary to "plain reducers".
 
-`.createEffects` does no runtime change to the supplied dict, the construct is used to provide additional inferred types and type validation for it. For instance, `dispatch` comes with a proper strictly typed dispatcher function.
+`.createEffects` does no runtime change to the supplied dict, the construct is used to provide additional inferred types and type validation for it. For instance, `dispatch` comes with a proper strictly typed dispatcher function, without the need to annotate.
 
 (fixme) This currently comes with hardcoded typings for a thunk store. (todo) Work around using the default store types and/or extending through custom declaration merging.
 
