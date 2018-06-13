@@ -1,4 +1,10 @@
-import { Reducer, Redutser, createRedutser, ReducerDict } from "./redutser"
+import {
+  Reducer,
+  Redutser,
+  RedutserShort,
+  createRedutser,
+  ReducerDict,
+} from "./redutser"
 
 /**
  * A pair of functions that handle the state conversion in and out.
@@ -94,7 +100,7 @@ export type LiftRedutserState<
 export const liftRedutserState = <
   OuterState,
   K extends keyof OuterState,
-  R extends Redutser<OuterState[K], any>
+  R extends RedutserShort<OuterState[K], any>
 >(
   state: OuterState,
   key: K,

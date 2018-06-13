@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "lib": ["es2016"],
+    "jsx": "react",
+    "strict": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include" : [
+    "./*.ts"
+  ]
+}

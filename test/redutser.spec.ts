@@ -1,4 +1,4 @@
-import { createRedutser, createRedutser2 } from "./redutser"
+import { createRedutser, createRedutser2 } from "../built"
 import { createStore } from "redux"
 
 function createSomething() {
@@ -54,7 +54,7 @@ describe("redutser", () => {
     expect(store.getState()).toEqual({ a: 3, b: "bcc" })
   })
 
-  test("bind to self", () => {
+  test("Bind to self", () => {
     const initialState = { a: 1 }
     const red = createRedutser2(initialState)({
       increment(state, act: { by: number }) {

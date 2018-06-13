@@ -1,9 +1,9 @@
-import { createRedutser, Redutser } from "./redutser"
+import { createRedutser, Redutser, RedutserShort } from "./redutser"
 import { liftRedutserState, LiftRedutserState } from "./combine-redutsers"
 import { Exactify } from "../type-helpers"
 
 export type RedutserDict<State> = {
-  [k: string]: Redutser<State, any>
+  [k: string]: RedutserShort<State, any>
 }
 
 export type ReducerDictFromRedutserDict<
@@ -19,7 +19,7 @@ type AdaptedAcFunction<T, Wrapper> = T extends (i: infer K) => infer V
 
 type SubdomainActionCreators<
   State,
-  Redutsers extends { [RedK in keyof Redutsers]: Redutser<State, any> }
+  Redutsers extends { [RedK in keyof Redutsers]: RedutserShort<State, any> }
 > = {
   [RedK in keyof Redutsers]: {
     [ACKey in keyof Redutsers[RedK]["creators"]]: AdaptedAcFunction<
@@ -79,7 +79,7 @@ function _reducerDictFromRedutserDict<State>() {
 export function combineRedutsers<
   State,
   RedDict extends Exactify<
-    { [k in keyof State]?: Redutser<State[k], any> },
+    { [k in keyof State]?: RedutserShort<State[k], any> },
     RedDict
   >
 >(initialState: State, redutsers: RedDict) {

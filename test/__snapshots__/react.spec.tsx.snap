@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plug 1 1`] = `
+<div
+  onClick={[Function]}
+>
+  a: 
+  1
+  b: 
+  b
+</div>
+`;
+
+exports[`Plug 2 1`] = `
+<div
+  onClick={[Function]}
+>
+  a: 
+  b
+  ownProp: 
+  own
+</div>
+`;
+
+exports[`Plug 3 1`] = `
+<div
+  onClick={[Function]}
+>
+  a: 
+  1
+</div>
+`;
+
+exports[`PlugShort 1 1`] = `
+<div
+  onClick={[Function]}
+>
+  a: 
+  b
+  ownProp: 
+  own
+</div>
+`;

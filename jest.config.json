@@ -1,21 +1,23 @@
 {
   "verbose": true,
+  "roots": ["<rootDir>/test"],
   "transform": {
     ".(ts|tsx)": "./node_modules/ts-jest/preprocessor.js"
   },
   "testRegex": "(/spec/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-  "moduleFileExtensions": ["ts", "tsx", "js"],
-  "moduleNameMapper": {
-    "^Components/(.*)": "./src/components/$1"
-  },
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "node"
+  ],
   "globals": {
     "window": {},
     "ts-jest": {
-      "tsConfigFile": "./tsconfig.json"
+      "tsConfigFile": "./test/tsconfig.json",
+      "enableTsDiagnostics": true
     }
-  },
-  "setupFiles": [
-    "./jest.stubs.js"
-  ],
-  "setupTestFrameworkScriptFile": "./jest.tests.js"
+  }
 }

@@ -1,4 +1,5 @@
 import * as H from "../type-helpers"
+import { plug, plugShort } from "./plug"
 
 export type Reducer<State, Payload = any> = (s: State, p: Payload) => State
 
@@ -14,13 +15,13 @@ export type ActionCreatorsFromReducerDict<Inp extends ReducerDict<any>> = {
 
 export type ActionTypesFromReducerDict<
   Inp extends ReducerDict<any>
-> = H.FnReturn<H.Values<ActionCreatorsFromReducerDict<Inp>>>
+> = ReturnType<H.Values<ActionCreatorsFromReducerDict<Inp>>>
 
 export const createRedutser2 = <State>(initialState: State) => <
   Dict extends ReducerDict<State>
 >(
   reducerDict: Dict
-): Redutser<State, Dict> => {
+) /*: Redutser<State, Dict>*/ => {
   const creators = _actionCreatorsFromReducerDict()(reducerDict)
 
   function reducer(
@@ -33,14 +34,18 @@ export const createRedutser2 = <State>(initialState: State) => <
     return state
   }
 
-  return {
+  let output = {
     creators,
+    plug: () => plug(output),
+    plugShort: () => plugShort(output),
     reducer,
     initialState,
     actionTypes: (undefined as any) as ActionTypesFromReducerDict<Dict>,
     __redutser__: true,
     _reducerDict: reducerDict,
   }
+
+  return output
 }
 
 export const createRedutser = <State, Dict extends ReducerDict<State>>(
@@ -50,17 +55,29 @@ export const createRedutser = <State, Dict extends ReducerDict<State>>(
   return createRedutser2(initialState)(reducerDict)
 }
 
-// copy-pasted, maybe helps something
+// copy-pasted from the inferred return type
+// this generates a precise type from the parameters
 export interface Redutser<State, Dict extends ReducerDict<State>> {
   creators: ActionCreatorsFromReducerDict<Dict>
   reducer: (
     state: State | undefined,
-    action: H.FnReturn<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>
+    action: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>
   ) => State
   initialState: State
   actionTypes: ActionTypesFromReducerDict<Dict>
   __redutser__: boolean
   _reducerDict: Dict
+}
+
+// this is a less strict version used for checking, not
+// to actually generating a precise type from the parameters
+export interface RedutserShort<State, ActionTypes> {
+  __redutser__: boolean
+  initialState: State
+  actionTypes: ActionTypes
+  creators: any
+  reducer: (state: State, action: ActionTypes) => State
+  _reducerDict: ReducerDict<State>
 }
 
 function _actionCreatorsFromReducerDict() {

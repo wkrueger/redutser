@@ -105,7 +105,7 @@ Note: this meant to be always used with `typeof`.
 This is intended to be a quick shorthand for `react-redux.connect`. (react-redux is required as a peer dependency in order to use this).
 
 ```tsx
-const comp = redutser.plug
+const comp = redutser.plug()
   .ownProps<{ type: string }>()
   .mapProps(
     state => ({ people: state.people }),
@@ -127,6 +127,7 @@ const comp = redutser.plug
   - The `connect`'s type arguments are spread into separate function calls in order to aid inference (that's a workaround for the lack partial argument inference);
   - `State` and `ActionTypes` inferred from context redutser;
   - `ownProps` type argument is optional and defaults to `{}`
+  - the `ownProps` call is optional (can be skipped)
   - `mapProps` arguments are optional and default to:
     - `state => state` (feed the whole state into props)
     - `dispatch => ({ dispatch })` (feed the dispatcher into props)
@@ -137,18 +138,16 @@ This is also available as a root export (in that case, it takes the redutser as 
 ### Redutser#plugShort
 
 > experimental
-> to-be-implemented
 
 Same as `plug`, but without the method name eye candy (a bit more lisp-y, if you ask).
 
 ```tsx
-const comp = redutser.plugShort()()( p => <pre>{p}</pre> )
+const comp = redutser.plugShort()()()( p => <pre>{p}</pre> )
 ```
 
 ### Redutser#createEffects
 
 > experimental
-> to-be-implemented
 
 Usage: In a similar trick we do with `.createRedutser`, provide a dict of "effects" functions.
 
@@ -248,3 +247,5 @@ works better with the inference.
 ## Building
 
 Check the npm scripts.
+
+Code style: Run _prettier_ with the included config and we're good.

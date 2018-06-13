@@ -1,7 +1,10 @@
-import { createRedutser } from "./redutser"
-import { subdomain, combineRedutsers } from "./subdomain"
 import { createStore } from "redux"
-import { liftRedutserState } from "./combine-redutsers"
+import {
+  combineRedutsers,
+  createRedutser,
+  liftRedutserState,
+  subdomain,
+} from "../built"
 
 const initialState = {
   a: 1,

@@ -8,6 +8,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 exports.__esModule = true;
+var plug_1 = require("./plug");
 exports.createRedutser2 = function (initialState) { return function (reducerDict) {
     var creators = _actionCreatorsFromReducerDict()(reducerDict);
     function reducer(state, action) {
@@ -17,14 +18,17 @@ exports.createRedutser2 = function (initialState) { return function (reducerDict
         }
         return state;
     }
-    return {
+    var output = {
         creators: creators,
+        plug: function () { return plug_1.plug(output); },
+        plugShort: function () { return plug_1.plugShort(output); },
         reducer: reducer,
         initialState: initialState,
         actionTypes: undefined,
         __redutser__: true,
         _reducerDict: reducerDict
     };
+    return output;
 }; };
 exports.createRedutser = function (initialState, reducerDict) {
     return exports.createRedutser2(initialState)(reducerDict);
