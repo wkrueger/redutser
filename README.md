@@ -23,7 +23,6 @@ This lib is mainly focused on generating accurate typing from your code. No `any
     - [actionTypes](#actionTypes)
   - [React Helpers](#reactHelpers)
     - [plug](#plug)
-  - [Effects Helper: createEffects](#createEffects)
   - [Typing dispatchers](#dispatcherTypings)
   - [Composition helpers](#compositionHelpers)
     - [subdomain](#subdomain)
