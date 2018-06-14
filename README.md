@@ -13,10 +13,24 @@ functions_, the lib cares about the action creators and the types.
 
 ### Why this?
 
-This lib is mainly focused on generating accurate typing from your code. No `any`s or `{}`. The reducer-writing pattern here is absolutely nothing new, but it's combination with inference will allow you to write redux code in a shorter way than most of the other options around.
+This lib is mainly focused on generating accurate typing from your code. No `any`s or `{}`. The reducer-writing pattern here is absolutely nothing new, but it's combination with inference will allow you to write redux code in a shorter way.
 
 [Moreover...](https://github.com/wkrueger/redutser/blob/master/blog/2018-05-08-why-this.md)
 
+  - [createRedutser](#createRedutser)
+    - [reducer](#reducer)
+    - [creators](#creators)
+    - [actionTypes](#actionTypes)
+  - [React Helpers](#reactHelpers)
+    - [plug](#plug)
+  - [Effects Helper: createEffects](#createEffects)
+  - [Typing dispatchers](#dispatcherTypings)
+  - [Composition helpers](#compositionHelpers)
+    - [subdomain](#subdomain)
+    - [liftRedutserState](#liftRedutserState)
+    - [combineRedutsers](#combineRedutsers)
+
+<a name="createRedutser"></a>
 ## createRedutser( initialState, actionsDict ): Redutser
 
 `actionsDict` is an object which keys will become the _action types_, and which values
@@ -59,6 +73,7 @@ Using `this`? [See caveat](#this-usage).
 
 The returning object has the following properties:
 
+<a name="reducer"></a>
 ### Redutser#reducer
 
 The generated reducer function, which you can directly feed into `createStore` or compose
@@ -68,7 +83,7 @@ with another reducer.
 // .reducer has a reducer with exactly the shape you are thinking of.
 const store = createStore( newsRedutser.reducer )
 ```
-
+<a name="creators"></a>
 ### Redutser#creators
 
 A collection of action creators, properly named and typed according to the `actionDict` you
@@ -81,6 +96,7 @@ const actions = newsRedutser.creators
 store.dispatch(actions.feed_append({ articles: [getArticle(5)] }))
 ```
 
+<a name="actionTypes"></a>
 ### Redutser#actionTypes
 
 This exports the generated reducer's action type. Which is a union of all of the possible
@@ -98,11 +114,15 @@ function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => vo
 ```
 Note: this meant to be always used with `typeof`.
 
-### Redutser#plug
+<a name="reactHelpers"></a>
+## React helpers
 
 > experimental
 
-This is intended to be a quick shorthand for `react-redux.connect`. (react-redux is required as a peer dependency in order to use this).
+<a name="plug"></a>
+### Redutser#plug
+
+This is intended to be an easier shorthand to `react-redux.connect`. (react-redux is required as a peer dependency in order to use this).
 
 ```tsx
 const comp = redutser.plug()
@@ -131,47 +151,41 @@ const comp = redutser.plug()
   - `mapProps` arguments are optional and default to:
     - `state => state` (feed the whole state into props)
     - `dispatch => ({ dispatch })` (feed the dispatcher into props)
-  - (fixme) Currently the injected dispatcher has a hardcoded typing for a thunk store;
+
+Caveats:
+  - Stateful components? Hmmm...
 
 This is also available as a root export (in that case, it takes the redutser as 1st parameter just for type inference).
 
 ### Redutser#plugShort
 
-> experimental
-
-Same as `plug`, but without the method name eye candy (a bit more lisp-y, if you ask).
+Same as `plug`, but without the method names.
 
 ```tsx
 const comp = redutser.plugShort()()()( p => <pre>{p}</pre> )
 ```
 
-### Redutser#createEffects
+<a name="dispatcherTypings"></a>
+## Typing dispatchers
 
 > experimental
 
-Usage: In a similar trick we do with `.createRedutser`, provide a dict of "effects" functions.
+(for now) Our react helpers currently use our own dispatcher types (instead of the sugested redux ones), declared globally as `Red_DispatchInput`. You may manually augment them (though declaration merging) in order to add additional middleware signatures. For instance, in order to add the _thunk_ signature, write:
 
-```tsx
-const fx = redutser.createEffects({
-  addPerson: (whatPerson: Person) => async dispatch => {
-    dispatch(redutser.creators.isWorking({}))
-    await db.upsert(whatPerson)
-    dispatch(redutser.creators.success({}))
-    await fx.updateList()(dispatch)
-  },
-  updateList: () => async dispatch => {
-    ///...
+```ts
+import { ThunkDispatcher } from 'redutser'
+
+declare global {
+  interface Red_DispatchInput<A, S> {
+    thunk: Red_ThunkDispatch<A, S>
   }
-})
-store.dispatch(fx.addPerson(Person()))
+}
 ```
-By "effects", we mean here functions intended to work with middleware-enhanced stores, contrary to "plain reducers".
+<a name="compositionHelpers"></a>
+## Composition helpers
 
-`.createEffects` does no runtime change to the supplied dict, the construct is used to provide additional inferred types and type validation for it. For instance, `dispatch` comes with a proper strictly typed dispatcher function, without the need to annotate.
-
-(fixme) This currently comes with hardcoded typings for a thunk store. (todo) Work around using the default store types and/or extending through custom declaration merging.
-
-## subdomain ( "extends" Redutser )
+<a name="subdomain"></a>
+### subdomain ( "extends" Redutser )
 
 Glues other `redutser`s for a bigger purpose, creating a compound redutser. They are expected to share the same state type.
 
@@ -199,8 +213,8 @@ Supplied action creators go one level deeper:
 ```typescript
 store.dispatch(meatBall.creators.red2.world({}))
 ```
-
-## liftRedutserState( initialOuterState, key: string, innerRedutser ) : redutser
+<a name="liftRedutserState"></a>
+### liftRedutserState( initialOuterState, key: string, innerRedutser ) : redutser
 
 This is an utility which "moves up" the state of the `innerRedutser`.
 
@@ -221,8 +235,8 @@ const meatball = subdomain(initialState, {
   itemB: liftRedutserState(initialState, 'itemB', innerB),
 })
 ```
-
-## combineRedutsers ( initialOuterState, innerRedutsers ) : redutser
+<a name="combineRedutsers"></a>
+### combineRedutsers ( initialOuterState, innerRedutsers ) : redutser
 
 A shorthand for the example above. The name is on purpose, is "combines" `reduTsers`
 which operate on subsets of the root state.

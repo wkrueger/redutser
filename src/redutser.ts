@@ -36,11 +36,14 @@ export const createRedutser2 = <State>(initialState: State) => <
 
   let output = {
     creators,
-    plug: () => plug(output),
-    plugShort: () => plugShort(output),
     reducer,
     initialState,
     actionTypes: (undefined as any) as ActionTypesFromReducerDict<Dict>,
+    plug: () => plug(output),
+    plugShort: () => plugShort(output),
+    // get createEffects() {
+    //   return createEffects(output)
+    // },
     __redutser__: true,
     _reducerDict: reducerDict,
   }

@@ -1,11 +1,5 @@
-"use strict";
-exports.__esModule = true;
-var redutser_1 = require("./redutser");
-exports.createRedutser = redutser_1.createRedutser;
-exports.createRedutser2 = redutser_1.createRedutser2;
-var subdomain_1 = require("./subdomain");
-exports.subdomain = subdomain_1.subdomain;
-exports.combineRedutsers = subdomain_1.combineRedutsers;
-var combine_redutsers_1 = require("./combine-redutsers");
-exports.liftRedutserState = combine_redutsers_1.liftRedutserState;
-exports.liftDictState = combine_redutsers_1.liftDictState;
+export { createRedutser, createRedutser2 } from "./redutser";
+export { subdomain, combineRedutsers } from "./subdomain";
+export { liftRedutserState, liftDictState } from "./combine-redutsers";
+export * from "./plug";
+//export * from "./create-effects"

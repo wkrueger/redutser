@@ -3,16 +3,6 @@ export type Values<K> = K[keyof K]
 export type Just<T> = Omit<T, undefined>
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
-export type ThunkFunction<Actions, StateT> = (
-  dispatcher: ThunkDispatcher<Actions, StateT>,
-  getState: () => StateT
-) => void | Promise<void>
-
-export interface ThunkDispatcher<Actions, State> {
-  (i: Actions): void
-  (fn: ThunkFunction<Actions, State>): void
-}
-
 export type Exactify<T, X extends T> = T &
   { [K in keyof X]: K extends keyof T ? X[K] : never }
 
@@ -31,9 +21,16 @@ export type ComponentEnhancer<ToRemove, ToAdd> = <
 ) => ChangeComponentProps<Comp, keyof ToRemove, ToAdd>
 
 declare global {
-  namespace Redutser {
-    interface DefaultDispatcher<Actions, State> {
-      (i: Actions): void
-    }
+  export interface Red_DispatchInput<A, S> {
+    basic: A
   }
+
+  export type Red_Dispatcher<A, S> = (
+    v: Values<Red_DispatchInput<A, S>>
+  ) => void
+
+  export type Red_ThunkDispatch<A, S> = (
+    dispatch: Red_Dispatcher<A, S>,
+    getState: () => S
+  ) => void | Promise<void>
 }

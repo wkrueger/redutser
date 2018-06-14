@@ -14,26 +14,26 @@ export declare type LiftRedutserState<State, Red extends Redutser<any, any> | un
  */
 export declare const liftRedutserState: <OuterState, K extends keyof OuterState, R extends RedutserShort<OuterState[K], any>>(state: OuterState, key: K, _red: R) => {
     creators: import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>;
+    reducer: (state: OuterState | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>) => OuterState;
+    initialState: OuterState;
+    actionTypes: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>;
     plug: () => {
         ownProps: <OwnProps = {}>() => {
             mapProps: <StateProps = OuterState, DispatchProps = {
-                dispatch: Redutser.DefaultDispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
-            }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.DefaultDispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
+                dispatch: Red_Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
+            }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
                 component: import("../type-helpers").ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
             };
         };
         mapProps: <StateProps = OuterState, DispatchProps = {
-            dispatch: Redutser.DefaultDispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
-        }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.DefaultDispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
+            dispatch: Red_Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
+        }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
             component: import("../type-helpers").ComponentEnhancer<StateProps & DispatchProps & {}, {}>;
         };
     };
     plugShort: () => <OwnProps = {}>() => <StateProps = OuterState, DispatchProps = {
-        dispatch: Redutser.DefaultDispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
-    }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.DefaultDispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => import("../type-helpers").ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
-    reducer: (state: OuterState | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>) => OuterState;
-    initialState: OuterState;
-    actionTypes: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>;
+        dispatch: Red_Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
+    }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => import("../type-helpers").ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
     __redutser__: boolean;
     _reducerDict: ReplaceDictState<DictOfRedutser<R>, OuterState>;
 };

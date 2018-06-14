@@ -4,10 +4,11 @@
   "description": "Type-safe action creators and reducers for redux.",
   "main": "built/index.js",
   "scripts": {
+    "tsc:pretest": "tsc -p ./ -module commonjs",
     "tsc": "tsc -p ./",
     "tsc:watch": "tsc -p ./ -w",
     "tsc:tests": "tsc -p ./test/tsconfig.json",
-    "pretest": "npm run tsc",
+    "pretest": "npm run tsc:pretest",
     "test": "jest --config jest.config.json",
     "test:watch": "jest --config jest.config.json --watch",
     "test:update": "jest --config jest.config.json -u"

@@ -70,4 +70,17 @@ describe("redutser", () => {
     store.dispatch(red.creators.times({ by: 2, times: 3 }))
     expect(store.getState()).toEqual({ a: 7 })
   })
+
+  /*
+  test("Effects", () => {
+    const fx = red.createEffects({
+      incrementManyTimes: (times: number) => async (dispatcher, getState) => {
+        if (times) {
+          dispatcher(red.creators.doNothing({}))
+          dispatcher(red.creators.increment(getState().a))
+        }
+        await fx.incrementManyTimes(2)(dispatcher, getState)
+      },
+    })
+  })*/
 })

@@ -3,7 +3,7 @@
   - React helpers:
     - `plug`
     - `plugShort`
-    - `createEffects`
+    - <s>`createEffects`</s> (I gave up)
 
   - Compiled with ts 2.9
     - typings are incompatible with ts 2.8
