@@ -21,16 +21,16 @@ export type ComponentEnhancer<ToRemove, ToAdd> = <
 ) => ChangeComponentProps<Comp, keyof ToRemove, ToAdd>
 
 declare global {
-  export interface Red_DispatchInput<A, S> {
-    basic: A
+  namespace Redutser {
+    export interface DispatchInput<A, S> {
+      basic: A
+    }
+
+    export type Dispatcher<A, S> = (v: Values<DispatchInput<A, S>>) => void
+
+    export type ThunkDispatch<A, S> = (
+      dispatch: Dispatcher<A, S>,
+      getState: () => S
+    ) => void | Promise<void>
   }
-
-  export type Red_Dispatcher<A, S> = (
-    v: Values<Red_DispatchInput<A, S>>
-  ) => void
-
-  export type Red_ThunkDispatch<A, S> = (
-    dispatch: Red_Dispatcher<A, S>,
-    getState: () => S
-  ) => void | Promise<void>
 }

@@ -7,12 +7,12 @@ export const plugShort = <Red extends Redutser<any, any>>(redutser: Red) => <
 >() => <
   StateProps = Red["initialState"],
   DispatchProps = {
-    dispatch: Red_Dispatcher<Red["actionTypes"], Red["initialState"]>
+    dispatch: Redutser.Dispatcher<Red["actionTypes"], Red["initialState"]>
   }
 >(
   stateMapper: (state: Red["initialState"]) => StateProps = state => state,
   dispatchMapper: (
-    dispatcher: Red_Dispatcher<Red["actionTypes"], Red["initialState"]>
+    dispatcher: Redutser.Dispatcher<Red["actionTypes"], Red["initialState"]>
   ) => DispatchProps = dispatch => ({ dispatch } as any)
 ): ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps> => {
   return (connect as any)(stateMapper, dispatchMapper as any)
@@ -34,12 +34,12 @@ const ownProps = <Red extends Redutser<any, any>>() => <OwnProps = {}>() => {
 const mapProps = <Red extends Redutser<any, any>, OwnProps = {}>() => <
   StateProps = Red["initialState"],
   DispatchProps = {
-    dispatch: Red_Dispatcher<Red["actionTypes"], Red["initialState"]>
+    dispatch: Redutser.Dispatcher<Red["actionTypes"], Red["initialState"]>
   }
 >(
   stateMapper: (state: Red["initialState"]) => StateProps = state => state,
   dispatchMapper: (
-    dispatcher: Red_Dispatcher<Red["actionTypes"], Red["initialState"]>
+    dispatcher: Redutser.Dispatcher<Red["actionTypes"], Red["initialState"]>
   ) => DispatchProps = dispatch => ({ dispatch } as any)
 ): {
   component: ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>

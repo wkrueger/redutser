@@ -169,14 +169,14 @@ const comp = redutser.plugShort()()()( p => <pre>{p}</pre> )
 
 > experimental
 
-(for now) Our react helpers currently use our own dispatcher types (instead of the sugested redux ones), declared globally as `Red_DispatchInput`. You may manually augment them (though declaration merging) in order to add additional middleware signatures. For instance, in order to add the _thunk_ signature, write:
+(for now) Our react helpers currently use our own dispatcher types (instead of the sugested redux ones), declared globally as `Redutser.DispatchInput`. You may manually augment them (though declaration merging) in order to add additional middleware signatures. For instance, in order to add the _thunk_ signature, write:
 
 ```ts
-import { ThunkDispatcher } from 'redutser'
-
 declare global {
-  interface Red_DispatchInput<A, S> {
-    thunk: Red_ThunkDispatch<A, S>
+  namespace Redutser {
+    interface DispatchInput<A, S> {
+      thunk: ThunkDispatch<A, S>
+    }
   }
 }
 ```

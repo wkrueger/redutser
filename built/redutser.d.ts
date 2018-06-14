@@ -18,20 +18,20 @@ export declare const createRedutser2: <State>(initialState: State) => <Dict exte
     plug: () => {
         ownProps: <OwnProps = {}>() => {
             mapProps: <StateProps = State, DispatchProps = {
-                dispatch: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
-            }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
+                dispatch: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
+            }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
                 component: H.ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
             };
         };
         mapProps: <StateProps = State, DispatchProps = {
-            dispatch: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
-        }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
+            dispatch: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
+        }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
             component: H.ComponentEnhancer<StateProps & DispatchProps & {}, {}>;
         };
     };
     plugShort: () => <OwnProps = {}>() => <StateProps = State, DispatchProps = {
-        dispatch: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
-    }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => H.ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
+        dispatch: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
+    }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => H.ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
     __redutser__: boolean;
     _reducerDict: Dict;
 };
@@ -43,20 +43,20 @@ export declare const createRedutser: <State, Dict extends ReducerDict<State>>(in
     plug: () => {
         ownProps: <OwnProps = {}>() => {
             mapProps: <StateProps = State, DispatchProps = {
-                dispatch: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
-            }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
+                dispatch: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
+            }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
                 component: H.ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
             };
         };
         mapProps: <StateProps = State, DispatchProps = {
-            dispatch: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
-        }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
+            dispatch: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
+        }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => {
             component: H.ComponentEnhancer<StateProps & DispatchProps & {}, {}>;
         };
     };
     plugShort: () => <OwnProps = {}>() => <StateProps = State, DispatchProps = {
-        dispatch: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
-    }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Red_Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => H.ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
+        dispatch: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>;
+    }>(stateMapper?: (state: State) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>, State>) => DispatchProps) => H.ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
     __redutser__: boolean;
     _reducerDict: Dict;
 };
