@@ -1,6 +1,6 @@
 {
   "name": "redutser",
-  "version": "0.13.0",
+  "version": "0.13.0-ts2.8",
   "description": "Type-safe action creators and reducers for redux.",
   "main": "built/index.js",
   "scripts": {
@@ -36,10 +36,10 @@
     "react-test-renderer": "^16.4.1",
     "redux": "^4.0.0",
     "ts-jest": "^22.4.3",
-    "typescript": "2.9"
+    "typescript": "2.8"
   },
   "dependencies": {},
   "peerDependencies": {
-    "typescript": "2.9"
+    "typescript": "2.8"
   }
 }

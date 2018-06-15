@@ -4,8 +4,8 @@
     "outDir": "./built",
     "declaration": true,
     "moduleResolution": "node",
+    "module": "commonjs",
     "strict": true,
-    "noUnusedLocals": true,
     "pretty": false
   },
   "include": ["./src/**/*.ts"]

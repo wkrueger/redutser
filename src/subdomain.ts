@@ -1,6 +1,7 @@
 import { createRedutser, Redutser, RedutserShort } from "./redutser"
 import { liftRedutserState, LiftRedutserState } from "./combine-redutsers"
 import { Exactify } from "../type-helpers"
+import { ComponentClass, StatelessComponent } from "react"
 
 export type RedutserDict<State> = {
   [k: string]: RedutserShort<State, any>

@@ -6,6 +6,8 @@ import {
   ReducerDict,
 } from "./redutser"
 
+import { ComponentClass, StatelessComponent } from "react"
+
 /**
  * A pair of functions that handle the state conversion in and out.
  */

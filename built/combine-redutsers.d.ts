@@ -1,4 +1,6 @@
+/// <reference types="react" />
 import { Reducer, Redutser, RedutserShort, ReducerDict } from "./redutser";
+import { ComponentClass, StatelessComponent } from "react";
 export declare type ReplaceReducerState<Red, UpperState> = Red extends Reducer<any, infer P> ? Reducer<UpperState, P> : never;
 export declare type ReplaceDictState<Dict extends ReducerDict<any>, StateOuter> = {
     [DictKey in keyof Dict]: ReplaceReducerState<Dict[DictKey], StateOuter>;
@@ -13,27 +15,54 @@ export declare type LiftRedutserState<State, Red extends Redutser<any, any> | un
  * "Lifts up" the state of a redutser.
  */
 export declare const liftRedutserState: <OuterState, K extends keyof OuterState, R extends RedutserShort<OuterState[K], any>>(state: OuterState, key: K, _red: R) => {
-    creators: import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>;
-    reducer: (state: OuterState | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>) => OuterState;
+    creators: { [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+        type: K;
+        payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+    }; };
+    reducer: (state: OuterState | undefined, action: ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+        type: K;
+        payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+    }; }[keyof DictOfRedutser<R>]>) => OuterState;
     initialState: OuterState;
-    actionTypes: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>;
+    actionTypes: ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+        type: K;
+        payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+    }; }[keyof DictOfRedutser<R>]>;
     plug: () => {
         ownProps: <OwnProps = {}>() => {
             mapProps: <StateProps = OuterState, DispatchProps = {
-                dispatch: Redutser.Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
-            }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
-                component: import("../type-helpers").ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
+                dispatch: Redutser.Dispatcher<ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+                    type: K;
+                    payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+                }; }[keyof DictOfRedutser<R>]>, OuterState>;
+            }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+                type: K;
+                payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+            }; }[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
+                component: <Comp extends ComponentClass<StateProps & DispatchProps & OwnProps> | StatelessComponent<StateProps & DispatchProps & OwnProps>>(comp: Comp) => Comp extends ComponentClass<infer Props> | StatelessComponent<infer Props> ? ComponentClass<Pick<Props, Exclude<keyof Props, keyof StateProps | keyof DispatchProps | keyof OwnProps>> & OwnProps> | StatelessComponent<Pick<Props, Exclude<keyof Props, keyof StateProps | keyof DispatchProps | keyof OwnProps>> & OwnProps> : never;
             };
         };
         mapProps: <StateProps = OuterState, DispatchProps = {
-            dispatch: Redutser.Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
-        }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
-            component: import("../type-helpers").ComponentEnhancer<StateProps & DispatchProps & {}, {}>;
+            dispatch: Redutser.Dispatcher<ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+                type: K;
+                payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+            }; }[keyof DictOfRedutser<R>]>, OuterState>;
+        }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+            type: K;
+            payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+        }; }[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => {
+            component: <Comp extends ComponentClass<StateProps & DispatchProps & {}> | StatelessComponent<StateProps & DispatchProps & {}>>(comp: Comp) => Comp extends ComponentClass<infer Props> | StatelessComponent<infer Props> ? ComponentClass<Pick<Props, Exclude<keyof Props, keyof StateProps | keyof DispatchProps>>> | StatelessComponent<Pick<Props, Exclude<keyof Props, keyof StateProps | keyof DispatchProps>>> : never;
         };
     };
     plugShort: () => <OwnProps = {}>() => <StateProps = OuterState, DispatchProps = {
-        dispatch: Redutser.Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>;
-    }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => import("../type-helpers").ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>;
+        dispatch: Redutser.Dispatcher<ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+            type: K;
+            payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+        }; }[keyof DictOfRedutser<R>]>, OuterState>;
+    }>(stateMapper?: (state: OuterState) => StateProps, dispatchMapper?: (dispatcher: Redutser.Dispatcher<ReturnType<{ [K in keyof DictOfRedutser<R>]: (payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never) => {
+        type: K;
+        payload: ReplaceDictState<DictOfRedutser<R>, OuterState>[K] extends (x: any, y: infer V) => any ? V : never;
+    }; }[keyof DictOfRedutser<R>]>, OuterState>) => DispatchProps) => <Comp extends ComponentClass<StateProps & DispatchProps & OwnProps> | StatelessComponent<StateProps & DispatchProps & OwnProps>>(comp: Comp) => Comp extends ComponentClass<infer Props> | StatelessComponent<infer Props> ? ComponentClass<Pick<Props, Exclude<keyof Props, keyof StateProps | keyof DispatchProps | keyof OwnProps>> & OwnProps> | StatelessComponent<Pick<Props, Exclude<keyof Props, keyof StateProps | keyof DispatchProps | keyof OwnProps>> & OwnProps> : never;
     __redutser__: boolean;
     _reducerDict: ReplaceDictState<DictOfRedutser<R>, OuterState>;
 };

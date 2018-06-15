@@ -1,4 +1,6 @@
-import { createRedutser, } from "./redutser";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const redutser_1 = require("./redutser");
 /**
  * An implementation of the above pair.
  */
@@ -19,7 +21,7 @@ const mapReducerState = () => (mapper) => {
 /**
  * Applies "mapToKey" to a key-value pair (ReducerDict), returning a new Dict.
  */
-export const liftDictState = () => (mapKey, dict) => {
+exports.liftDictState = () => (mapKey, dict) => {
     return Object.keys(dict).reduce((out, dictKey) => {
         const mapObj = mapToKey()(mapKey);
         return Object.assign({}, out, { [dictKey]: mapReducerState()(mapObj)(dict[dictKey]) });
@@ -28,10 +30,10 @@ export const liftDictState = () => (mapKey, dict) => {
 /**
  * "Lifts up" the state of a redutser.
  */
-export const liftRedutserState = (state, key, _red) => {
-    const dictMapped = liftDictState()(key, 
+exports.liftRedutserState = (state, key, _red) => {
+    const dictMapped = exports.liftDictState()(key, 
     //this might feel a bit hacky but thats what worked better wth the inference atm
     //a previous less "hacky" approach brought inference issues.
     _red._reducerDict);
-    return createRedutser(state, dictMapped);
+    return redutser_1.createRedutser(state, dictMapped);
 };

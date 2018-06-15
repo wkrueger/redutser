@@ -1,5 +1,7 @@
-import { plug, plugShort } from "./plug";
-export const createRedutser2 = (initialState) => (reducerDict) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const plug_1 = require("./plug");
+exports.createRedutser2 = (initialState) => (reducerDict) => {
     const creators = _actionCreatorsFromReducerDict()(reducerDict);
     function reducer(state = initialState, action) {
         if (reducerDict[action.type]) {
@@ -12,8 +14,8 @@ export const createRedutser2 = (initialState) => (reducerDict) => {
         reducer,
         initialState,
         actionTypes: undefined,
-        plug: () => plug(output),
-        plugShort: () => plugShort(output),
+        plug: () => plug_1.plug(output),
+        plugShort: () => plug_1.plugShort(output),
         // get createEffects() {
         //   return createEffects(output)
         // },
@@ -22,8 +24,8 @@ export const createRedutser2 = (initialState) => (reducerDict) => {
     };
     return output;
 };
-export const createRedutser = (initialState, reducerDict) => {
-    return createRedutser2(initialState)(reducerDict);
+exports.createRedutser = (initialState, reducerDict) => {
+    return exports.createRedutser2(initialState)(reducerDict);
 };
 function _actionCreatorsFromReducerDict() {
     return (dict) => {

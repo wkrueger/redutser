@@ -3,10 +3,10 @@
  * currently this is kept only for reference
  */
 import { RedutserShort } from "./redutser";
-declare global {
+declare global  {
     interface Red_EffectsType<A, S> {
     }
 }
 export declare function createEffects<Red extends RedutserShort<any, any>>(redutser: Red): <FX extends {
-    [k: string]: (...i: any[]) => never;
+    [k: string]: (...i: any[]) => any;
 }>(fx: FX) => FX;
