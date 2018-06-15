@@ -9,7 +9,12 @@ _Type-safe action creators and reducers for redux and typescript._
 Allows you to write type-safe reducers with fewer keystrokes. _Just write the
 functions_, the lib cares about the action creators and the types.
 
-**Expects ts 2.8+**
+**typescript versions**: If your project uses ts2.8, you'll have to install another version of the package.
+
+| Version  | package |
+|:--------:|:-------:|
+| 2.9      | `redutser` |
+| 2.8      | `redutser@ts2.8` |
 
 ### Why this?
 
