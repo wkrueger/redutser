@@ -4,7 +4,7 @@ import { plug, plugShort } from "./plug"
 export type Reducer<State, Payload = any> = (s: State, p: Payload) => State
 
 export type ReducerDict<State> = {
-  [name: string]: (s: State, p: any) => State
+  [name: string]: (this: ReducerDict<State>, s: State, p: any) => State
 }
 
 export type ActionCreatorsFromReducerDict<Inp extends ReducerDict<any>> = {

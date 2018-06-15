@@ -56,7 +56,7 @@ describe("redutser", () => {
 
   test("Bind to self", () => {
     const initialState = { a: 1 }
-    const red = createRedutser2(initialState)({
+    const red = createRedutser(initialState, {
       increment(state, act: { by: number }) {
         return {
           a: state.a + act.by,

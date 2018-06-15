@@ -1,8 +1,10 @@
-import { connect } from "react-redux";
-export const plugShort = (redutser) => () => (stateMapper = state => state, dispatchMapper = dispatch => ({ dispatch })) => {
-    return connect(stateMapper, dispatchMapper);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_redux_1 = require("react-redux");
+exports.plugShort = (redutser) => () => (stateMapper = state => state, dispatchMapper = dispatch => ({ dispatch })) => {
+    return react_redux_1.connect(stateMapper, dispatchMapper);
 };
-export const plug = (redutser) => {
+exports.plug = (redutser) => {
     return {
         ownProps: ownProps(),
         mapProps: mapProps(),
@@ -14,6 +16,6 @@ const ownProps = () => () => {
     };
 };
 const mapProps = () => (stateMapper = state => state, dispatchMapper = dispatch => ({ dispatch })) => {
-    const component = connect(stateMapper, dispatchMapper);
+    const component = react_redux_1.connect(stateMapper, dispatchMapper);
     return { component };
 };

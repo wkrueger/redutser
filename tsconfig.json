@@ -6,7 +6,8 @@
     "moduleResolution": "node",
     "strict": true,
     "noUnusedLocals": true,
-    "pretty": false
+    "pretty": false,
+    "module": "commonjs"
   },
   "include": ["./src/**/*.ts"]
 }

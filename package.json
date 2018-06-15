@@ -1,9 +1,10 @@
 {
   "name": "redutser",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Type-safe action creators and reducers for redux.",
   "main": "built/index.js",
   "scripts": {
+    "prepublishOnly": "npm run tsc",
     "tsc:pretest": "tsc -p ./ -module commonjs",
     "tsc": "tsc -p ./",
     "tsc:watch": "tsc -p ./ -w",
