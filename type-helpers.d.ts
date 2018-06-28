@@ -10,12 +10,12 @@ export type ChangeComponentProps<
   Comp,
   KeysToRemove = never,
   ShapeToAdd = {}
-> = Comp extends React.ComponentType<infer Props>
-  ? React.ComponentType<Omit<Props, KeysToRemove> & ShapeToAdd>
+> = Comp extends import('react').ComponentType<infer Props>
+  ? import('react').ComponentType<Omit<Props, KeysToRemove> & ShapeToAdd>
   : never
 
 export type ComponentEnhancer<ToRemove, ToAdd> = <
-  Comp extends React.ComponentType<ToRemove & ToAdd>
+  Comp extends import('react').ComponentType<ToRemove & ToAdd>
 >(
   comp: Comp
 ) => ChangeComponentProps<Comp, keyof ToRemove, ToAdd>

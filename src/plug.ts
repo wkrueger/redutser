@@ -1,6 +1,6 @@
 import { ComponentEnhancer } from "../type-helpers"
-import { connect } from "react-redux"
 import { RedutserShort as Redutser } from "./redutser"
+declare var require: (s: string) => any
 
 export const plugShort = <Red extends Redutser<any, any>>(redutser: Red) => <
   OwnProps = {}
@@ -15,7 +15,11 @@ export const plugShort = <Red extends Redutser<any, any>>(redutser: Red) => <
     dispatcher: Redutser.Dispatcher<Red["actionTypes"], Red["initialState"]>
   ) => DispatchProps = dispatch => ({ dispatch } as any)
 ): ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps> => {
-  return (connect as any)(stateMapper, dispatchMapper as any)
+  const connect = require("react-redux").connect
+  return connect(
+    stateMapper,
+    dispatchMapper as any
+  )
 }
 
 export const plug = <Red extends Redutser<any, any>>(redutser: Red) => {
@@ -44,6 +48,10 @@ const mapProps = <Red extends Redutser<any, any>, OwnProps = {}>() => <
 ): {
   component: ComponentEnhancer<StateProps & DispatchProps & OwnProps, OwnProps>
 } => {
-  const component = (connect as any)(stateMapper, dispatchMapper as any)
+  const connect = require("react-redux").connect
+  const component = connect(
+    stateMapper,
+    dispatchMapper as any
+  )
   return { component }
 }

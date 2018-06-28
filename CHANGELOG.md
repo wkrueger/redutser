@@ -14,3 +14,7 @@
   - Some functions wich take redutsers as inputs had theirs `extends <type>` clauses loosened.
 
 **.1** - Readme update.
+
+**.2** - Fix build back to commonjs.
+
+**.3** - Fix `.plug()` requiring `react-redux` when not needed.
