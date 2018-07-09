@@ -100,7 +100,7 @@ store.dispatch(actions.feed_append({ articles: [getArticle(5)] }))
 ### Redutser#actionTypes
 
 This exports the generated reducer's action type. Which is a union of all of the possible
-action inputs. You can use this to describe really accurate dispatch functions.
+action inputs. You can use this to describe accurate dispatch functions.
 
 ```ts
 function someThing( dispatcher: (payload: typeof newsRedutser.actionTypes) => void ) {
