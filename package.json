@@ -1,6 +1,6 @@
 {
   "name": "redutser",
-  "version": "0.13.3-t1",
+  "version": "0.13.3",
   "description": "Type-safe action creators and reducers for redux.",
   "main": "built/index.js",
   "scripts": {
