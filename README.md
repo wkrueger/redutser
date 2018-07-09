@@ -16,9 +16,6 @@ functions_, the lib cares about the action creators and the types.
 | 2.9      | `redutser` |
 | 2.8      | `redutser@ts2.8` |
 
-### Why this?
-
-This lib is mainly focused on generating accurate typing from your code. No `any`s or `{}`. The reducer-writing pattern here is absolutely nothing new, but it's combination with inference will allow you to write redux code in a shorter way.
 
 [Moreover...](https://github.com/wkrueger/redutser/blob/master/blog/2018-05-08-why-this.md)
 
