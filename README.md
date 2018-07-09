@@ -16,8 +16,7 @@ functions_, the lib cares about the action creators and the types.
 | 2.9      | `redutser` |
 | 2.8      | `redutser@ts2.8` |
 
-
-[Moreover...](https://github.com/wkrueger/redutser/blob/master/blog/2018-05-08-why-this.md)
+---
 
   - [createRedutser](#createRedutser)
     - [reducer](#reducer)
