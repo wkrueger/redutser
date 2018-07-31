@@ -3,22 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const plug_1 = require("./plug");
 exports.createRedutser2 = (initialState) => (reducerDict) => {
     const creators = _actionCreatorsFromReducerDict()(reducerDict);
-    function reducer(state = initialState, action) {
+    const reducerWithInitializer = (initializer) => (state = initializer, action) => {
         if (reducerDict[action.type]) {
             return reducerDict[action.type](state, action.payload);
         }
         return state;
-    }
+    };
+    const reducer = reducerWithInitializer(initialState);
     let output = {
         creators,
         reducer,
+        reducerWithInitializer,
         initialState,
         actionTypes: undefined,
         plug: () => plug_1.plug(output),
         plugShort: () => plug_1.plugShort(output),
-        // get createEffects() {
-        //   return createEffects(output)
-        // },
         __redutser__: true,
         _reducerDict: reducerDict,
     };

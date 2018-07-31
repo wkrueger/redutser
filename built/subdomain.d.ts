@@ -23,6 +23,7 @@ declare type SubdomainActionCreators<State, Redutsers extends {
 export declare function subdomain<State, Redutsers extends RedutserDict<State>>(initialState: State, redutsers: Redutsers): {
     creators: SubdomainActionCreators<State, Redutsers>;
     reducer: (state: State | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReducerDictFromRedutserDict<Redutsers, State>>[keyof Redutsers]>) => State;
+    reducerWithInitializer: (initializer: State) => (state: State | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReducerDictFromRedutserDict<Redutsers, State>>[keyof Redutsers]>) => State;
     initialState: State;
     actionTypes: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReducerDictFromRedutserDict<Redutsers, State>>[keyof Redutsers]>;
     plug: () => {
@@ -50,6 +51,7 @@ export declare function combineRedutsers<State, RedDict extends Exactify<{
 }, RedDict>>(initialState: State, redutsers: RedDict): {
     creators: SubdomainActionCreators<State, { [k in keyof RedDict]: RedDict[k] extends Redutser<any, any> ? Redutser<State, import("./combine-redutsers").ReplaceDictState<import("./combine-redutsers").DictOfRedutser<RedDict[k]>, State>> : never; }>;
     reducer: (state: State | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReducerDictFromRedutserDict<{ [k in keyof RedDict]: RedDict[k] extends Redutser<any, any> ? Redutser<State, import("./combine-redutsers").ReplaceDictState<import("./combine-redutsers").DictOfRedutser<RedDict[k]>, State>> : never; }, State>>[keyof RedDict]>) => State;
+    reducerWithInitializer: (initializer: State) => (state: State | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReducerDictFromRedutserDict<{ [k in keyof RedDict]: RedDict[k] extends Redutser<any, any> ? Redutser<State, import("./combine-redutsers").ReplaceDictState<import("./combine-redutsers").DictOfRedutser<RedDict[k]>, State>> : never; }, State>>[keyof RedDict]>) => State;
     initialState: State;
     actionTypes: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReducerDictFromRedutserDict<{ [k in keyof RedDict]: RedDict[k] extends Redutser<any, any> ? Redutser<State, import("./combine-redutsers").ReplaceDictState<import("./combine-redutsers").DictOfRedutser<RedDict[k]>, State>> : never; }, State>>[keyof RedDict]>;
     plug: () => {

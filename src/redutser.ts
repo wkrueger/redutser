@@ -24,26 +24,26 @@ export const createRedutser2 = <State>(initialState: State) => <
 ) /*: Redutser<State, Dict>*/ => {
   const creators = _actionCreatorsFromReducerDict()(reducerDict)
 
-  function reducer(
-    state = initialState,
+  const reducerWithInitializer = (initializer: State) => (
+    state = initializer,
     action: ActionTypesFromReducerDict<Dict>
-  ): State {
+  ): State => {
     if (reducerDict[(action as any).type]) {
       return reducerDict[(action as any).type](state, (action as any).payload)
     }
     return state
   }
 
+  const reducer = reducerWithInitializer(initialState)
+
   let output = {
     creators,
     reducer,
+    reducerWithInitializer,
     initialState,
     actionTypes: (undefined as any) as ActionTypesFromReducerDict<Dict>,
     plug: () => plug(output),
     plugShort: () => plugShort(output),
-    // get createEffects() {
-    //   return createEffects(output)
-    // },
     __redutser__: true,
     _reducerDict: reducerDict,
   }

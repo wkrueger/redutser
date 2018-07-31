@@ -20,6 +20,7 @@ functions_, the lib cares about the action creators and the types.
 
   - [createRedutser](#createRedutser)
     - [reducer](#reducer)
+    - [reducerWithInitializer](#reducerWithInitializer)
     - [creators](#creators)
     - [actionTypes](#actionTypes)
   - [React Helpers](#reactHelpers)
@@ -49,11 +50,11 @@ const initialState = {
 const newsRedutser = createRedutser(
   initialState,
   {
-    article_edit : (state, act: { articleId: number, content: string }) => ({
+    articleEdit : (state, act: { articleId: number, content: string }) => ({
       ...state,
       editArticleDialog : act
     }),
-    feed_append : (state, act: { articles: NewsArticle[] }) => ({
+    feedAppend : (state, act: { articles: NewsArticle[] }) => ({
       ...state,
       newsFeed : [...state.newsFeed, ...act.articles]
     })
@@ -83,6 +84,19 @@ with another reducer.
 // .reducer has a reducer with exactly the shape you are thinking of.
 const store = createStore( newsRedutser.reducer )
 ```
+
+
+<a name="reducerWithInitializer"></a>
+### Redutser#reducerWithInitializer
+
+Creates a reducer function with a different initializer from the previously supplied. (this may probably help on SSR scenarios)
+
+```ts
+const store = createStore( 
+  newsRedutser.reducerWithInitializer({ newsFeed: [AnotherArticle()] })
+)
+```
+
 <a name="creators"></a>
 ### Redutser#creators
 

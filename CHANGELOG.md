@@ -1,3 +1,7 @@
+## 0.14.0
+
+  - New method `Redutser#reducerWithInitializer`;
+
 ## 0.13.0
 
   - React helpers:

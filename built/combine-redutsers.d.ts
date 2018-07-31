@@ -15,6 +15,7 @@ export declare type LiftRedutserState<State, Red extends Redutser<any, any> | un
 export declare const liftRedutserState: <OuterState, K extends keyof OuterState, R extends RedutserShort<OuterState[K], any>>(state: OuterState, key: K, _red: R) => {
     creators: import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>;
     reducer: (state: OuterState | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>) => OuterState;
+    reducerWithInitializer: (initializer: OuterState) => (state: OuterState | undefined, action: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>) => OuterState;
     initialState: OuterState;
     actionTypes: ReturnType<import("./redutser").ActionCreatorsFromReducerDict<ReplaceDictState<DictOfRedutser<R>, OuterState>>[keyof DictOfRedutser<R>]>;
     plug: () => {

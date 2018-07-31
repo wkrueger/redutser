@@ -71,16 +71,11 @@ describe("redutser", () => {
     expect(store.getState()).toEqual({ a: 7 })
   })
 
-  /*
-  test("Effects", () => {
-    const fx = red.createEffects({
-      incrementManyTimes: (times: number) => async (dispatcher, getState) => {
-        if (times) {
-          dispatcher(red.creators.doNothing({}))
-          dispatcher(red.creators.increment(getState().a))
-        }
-        await fx.incrementManyTimes(2)(dispatcher, getState)
-      },
-    })
-  })*/
+  test("reducerWithInitializer", () => {
+    const red = createSomething()
+    const store1 = createStore(red.reducer)
+    expect(store1.getState()).toEqual({ a: 1, b: "b" })
+    const store2 = createStore(red.reducerWithInitializer({ a: 3, b: 'c'}))
+    expect(store2.getState()).toEqual({ a: 3, b: 'c'})
+  })
 })

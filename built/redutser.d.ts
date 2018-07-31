@@ -13,6 +13,7 @@ export declare type ActionTypesFromReducerDict<Inp extends ReducerDict<any>> = R
 export declare const createRedutser2: <State>(initialState: State) => <Dict extends ReducerDict<State>>(reducerDict: Dict) => {
     creators: ActionCreatorsFromReducerDict<Dict>;
     reducer: (state: State | undefined, action: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>) => State;
+    reducerWithInitializer: (initializer: State) => (state: State | undefined, action: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>) => State;
     initialState: State;
     actionTypes: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>;
     plug: () => {
@@ -38,6 +39,7 @@ export declare const createRedutser2: <State>(initialState: State) => <Dict exte
 export declare const createRedutser: <State, Dict extends ReducerDict<State>>(initialState: State, reducerDict: Dict) => {
     creators: ActionCreatorsFromReducerDict<Dict>;
     reducer: (state: State | undefined, action: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>) => State;
+    reducerWithInitializer: (initializer: State) => (state: State | undefined, action: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>) => State;
     initialState: State;
     actionTypes: ReturnType<ActionCreatorsFromReducerDict<Dict>[keyof Dict]>;
     plug: () => {
