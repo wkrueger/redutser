@@ -226,6 +226,7 @@ const initialState = {
 
 const innerA = createRedutser(initialState.itemA, ... )
 const innerB = createRedutser(initialState.itemB, ... )
+const controller = createRedutser(initialState, ... )
 
 //this will fail since innerA has a different state position
 const meatball = subdomain(initialState, { itemA: innerA })
@@ -233,10 +234,13 @@ const meatball = subdomain(initialState, { itemA: innerA })
 const meatball = subdomain(initialState, {
   itemA: liftRedutserState(initialState, 'itemA', innerA),
   itemB: liftRedutserState(initialState, 'itemB', innerB),
+  controller //still has access to the whole state
 })
 ```
 <a name="combineRedutsers"></a>
 ### combineRedutsers ( initialOuterState, innerRedutsers ) : redutser
+
+> Experimental. Typings may not work.
 
 A shorthand for the example above. The name is on purpose, is "combines" `reduTsers`
 which operate on subsets of the root state.
